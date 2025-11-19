@@ -24,19 +24,30 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      zIndex: 1003
+      zIndex: 1003,
+      padding: '16px',
+      '@media (max-width: 480px)': {
+        padding: '8px',
+        alignItems: 'flex-end'
+      }
     },
     chatContainer: {
       backgroundColor: 'white',
       borderRadius: '12px',
-      width: '90%',
+      width: '100%',
       maxWidth: '400px',
       height: '80vh',
       maxHeight: '600px',
       display: 'flex',
       flexDirection: 'column',
       boxShadow: '0 20px 25px -5px rgba(0,0,0,0.2)',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      '@media (max-width: 480px)': {
+        maxWidth: '100%',
+        height: '90vh',
+        maxHeight: '90vh',
+        borderRadius: '12px 12px 0 0'
+      }
     },
     chatHeader: {
       display: 'flex',
@@ -44,20 +55,32 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
       alignItems: 'center',
       padding: '20px',
       backgroundColor: '#7C2A62',
-      color: 'white'
+      color: 'white',
+      '@media (max-width: 480px)': {
+        padding: '16px'
+      }
     },
     chatHeaderInfo: {
       display: 'flex',
       alignItems: 'center',
-      gap: '12px'
+      gap: '12px',
+      '@media (max-width: 480px)': {
+        gap: '8px'
+      }
     },
     chatAvatar: {
-      fontSize: '24px'
+      fontSize: '24px',
+      '@media (max-width: 480px)': {
+        fontSize: '20px'
+      }
     },
     chatTitle: {
       margin: 0,
       fontSize: '18px',
-      fontWeight: '600'
+      fontWeight: '600',
+      '@media (max-width: 480px)': {
+        fontSize: '16px'
+      }
     },
     chatStatus: {
       margin: 0,
@@ -65,7 +88,10 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
       opacity: 0.8,
       display: 'flex',
       alignItems: 'center',
-      gap: '6px'
+      gap: '6px',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     chatCloseButton: {
       backgroundColor: 'transparent',
@@ -73,7 +99,10 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
       color: 'white',
       fontSize: '20px',
       cursor: 'pointer',
-      padding: '4px'
+      padding: '4px',
+      '@media (max-width: 480px)': {
+        fontSize: '18px'
+      }
     },
     chatMessages: {
       flex: 1,
@@ -82,14 +111,23 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
       display: 'flex',
       flexDirection: 'column',
       gap: '12px',
-      backgroundColor: '#f8fafc'
+      backgroundColor: '#f8fafc',
+      '@media (max-width: 480px)': {
+        padding: '16px',
+        gap: '8px'
+      }
     },
     message: {
       maxWidth: '80%',
       padding: '12px 16px',
       borderRadius: '18px',
       fontSize: '14px',
-      lineHeight: '1.4'
+      lineHeight: '1.4',
+      '@media (max-width: 480px)': {
+        maxWidth: '85%',
+        padding: '10px 14px',
+        fontSize: '13px'
+      }
     },
     userMessage: {
       alignSelf: 'flex-end',
@@ -115,7 +153,10 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
     messageTime: {
       fontSize: '10px',
       opacity: 0.7,
-      alignSelf: 'flex-end'
+      alignSelf: 'flex-end',
+      '@media (max-width: 480px)': {
+        fontSize: '9px'
+      }
     },
     typingIndicator: {
       display: 'flex',
@@ -126,7 +167,11 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
       borderRadius: '18px',
       border: '1px solid #e5e7eb',
       alignSelf: 'flex-start',
-      maxWidth: '150px'
+      maxWidth: '150px',
+      '@media (max-width: 480px)': {
+        padding: '10px 14px',
+        maxWidth: '130px'
+      }
     },
     typingDots: {
       display: 'flex',
@@ -134,17 +179,27 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
     },
     typingText: {
       fontSize: '12px',
-      color: '#6b7280'
+      color: '#6b7280',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     chatInputContainer: {
       padding: '16px',
       borderTop: '1px solid #e5e7eb',
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      '@media (max-width: 480px)': {
+        padding: '12px'
+      }
     },
     chatInputWrapper: {
       display: 'flex',
       gap: '8px',
-      marginBottom: '12px'
+      marginBottom: '12px',
+      '@media (max-width: 480px)': {
+        gap: '6px',
+        marginBottom: '8px'
+      }
     },
     chatInput: {
       flex: 1,
@@ -152,7 +207,11 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
       border: '1px solid #d1d5db',
       borderRadius: '24px',
       fontSize: '14px',
-      outline: 'none'
+      outline: 'none',
+      '@media (max-width: 480px)': {
+        padding: '10px 14px',
+        fontSize: '13px'
+      }
     },
     sendButton: {
       backgroundColor: '#7C2A62',
@@ -165,18 +224,30 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      fontSize: '16px'
+      fontSize: '16px',
+      '@media (max-width: 480px)': {
+        width: '36px',
+        height: '36px',
+        fontSize: '14px'
+      }
     },
     chatSuggestions: {
       display: 'flex',
       flexWrap: 'wrap',
       gap: '6px',
-      alignItems: 'center'
+      alignItems: 'center',
+      '@media (max-width: 480px)': {
+        gap: '4px'
+      }
     },
     suggestionLabel: {
       fontSize: '12px',
       color: '#6b7280',
-      marginRight: '4px'
+      marginRight: '4px',
+      '@media (max-width: 480px)': {
+        fontSize: '11px',
+        marginRight: '2px'
+      }
     },
     suggestionButton: {
       backgroundColor: '#f3f4f6',
@@ -186,7 +257,12 @@ const AIChatBoard = ({ isOpen, onClose, user }) => {
       padding: '4px 8px',
       fontSize: '11px',
       cursor: 'pointer',
-      transition: 'background-color 0.3s ease'
+      transition: 'background-color 0.3s ease',
+      '@media (max-width: 480px)': {
+        padding: '3px 6px',
+        fontSize: '10px',
+        borderRadius: '10px'
+      }
     }
   };
 

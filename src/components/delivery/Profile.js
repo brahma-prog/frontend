@@ -14,9 +14,15 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
 
   const styles = {
     mainContent: {
-      padding: '30px',
+      padding: '20px',
       minHeight: '100vh',
-      backgroundColor: '#f8f9fa'
+      backgroundColor: '#f8f9fa',
+      '@media (max-width: 768px)': {
+        padding: '16px'
+      },
+      '@media (max-width: 480px)': {
+        padding: '12px'
+      }
     },
     header: {
       display: 'flex',
@@ -24,20 +30,29 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
-      marginBottom: '30px'
+      marginBottom: '24px'
     },
     greeting: {
-      fontSize: '40px',
-      fontWeight: '1000',
+      fontSize: '32px',
+      fontWeight: '700',
       color: '#1f2937',
       margin: '0 0 8px 0',
-      textAlign: 'center'
+      textAlign: 'center',
+      '@media (max-width: 768px)': {
+        fontSize: '28px'
+      },
+      '@media (max-width: 480px)': {
+        fontSize: '24px'
+      }
     },
     subtitle: {
       fontSize: '16px',
       color: '#6b7280',
       margin: 0,
-      textAlign: 'center'
+      textAlign: 'center',
+      '@media (max-width: 480px)': {
+        fontSize: '14px'
+      }
     },
     headerActions: {
       display: 'flex',
@@ -48,9 +63,13 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       display: 'flex',
       gap: '12px',
       justifyContent: 'flex-end',
-      marginTop: '30px',
+      marginTop: '24px',
       paddingTop: '20px',
-      borderTop: '1px solid #e5e7eb'
+      borderTop: '1px solid #e5e7eb',
+      '@media (max-width: 480px)': {
+        flexDirection: 'column',
+        gap: '8px'
+      }
     },
     primaryButton: {
       backgroundColor: '#7C2A62',
@@ -66,7 +85,12 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       alignItems: 'center',
       gap: '8px',
       minWidth: '140px',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      '@media (max-width: 480px)': {
+        minWidth: 'auto',
+        width: '100%',
+        padding: '10px 20px'
+      }
     },
     secondaryButton: {
       backgroundColor: 'transparent',
@@ -82,7 +106,12 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       alignItems: 'center',
       gap: '8px',
       minWidth: '140px',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      '@media (max-width: 480px)': {
+        minWidth: 'auto',
+        width: '100%',
+        padding: '10px 20px'
+      }
     },
     successButton: {
       backgroundColor: '#10B981',
@@ -98,7 +127,12 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       gap: '8px',
       minWidth: '140px',
       justifyContent: 'center',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
+      '@media (max-width: 480px)': {
+        minWidth: 'auto',
+        width: '100%',
+        padding: '10px 20px'
+      }
     },
     dangerButton: {
       backgroundColor: '#EF4444',
@@ -114,7 +148,12 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       gap: '8px',
       minWidth: '140px',
       justifyContent: 'center',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
+      '@media (max-width: 480px)': {
+        minWidth: 'auto',
+        width: '100%',
+        padding: '10px 20px'
+      }
     },
     profileContainer: {
       maxWidth: '800px',
@@ -130,14 +169,26 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
     profileHeader: {
       display: 'flex',
       alignItems: 'center',
-      padding: '40px',
+      padding: '32px',
       borderBottom: '1px solid #e5e7eb',
       backgroundColor: '#f8fafc',
-      position: 'relative'
+      position: 'relative',
+      '@media (max-width: 768px)': {
+        padding: '24px',
+        flexDirection: 'column',
+        textAlign: 'center',
+        gap: '20px'
+      },
+      '@media (max-width: 480px)': {
+        padding: '20px'
+      }
     },
     profileAvatar: {
       marginRight: '25px',
-      position: 'relative'
+      position: 'relative',
+      '@media (max-width: 768px)': {
+        marginRight: '0'
+      }
     },
     profileImage: {
       width: '120px',
@@ -145,7 +196,11 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       borderRadius: '50%',
       objectFit: 'cover',
       border: '4px solid #7C2A62',
-      boxShadow: '0 4px 12px rgba(124, 42, 98, 0.2)'
+      boxShadow: '0 4px 12px rgba(124, 42, 98, 0.2)',
+      '@media (max-width: 480px)': {
+        width: '100px',
+        height: '100px'
+      }
     },
     profileImagePlaceholder: {
       width: '120px',
@@ -156,11 +211,18 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       alignItems: 'center',
       justifyContent: 'center',
       border: '4px solid #7C2A62',
-      boxShadow: '0 4px 12px rgba(124, 42, 98, 0.2)'
+      boxShadow: '0 4px 12px rgba(124, 42, 98, 0.2)',
+      '@media (max-width: 480px)': {
+        width: '100px',
+        height: '100px'
+      }
     },
     avatarIcon: {
       fontSize: '48px',
-      color: '#7C2A62'
+      color: '#7C2A62',
+      '@media (max-width: 480px)': {
+        fontSize: '40px'
+      }
     },
     changePhotoButton: {
       position: 'absolute',
@@ -178,21 +240,35 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       justifyContent: 'center',
       fontSize: '16px',
       boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
+      '@media (max-width: 480px)': {
+        width: '32px',
+        height: '32px',
+        fontSize: '14px'
+      }
     },
     profileUserInfo: {
-      flex: 1
+      flex: 1,
+      '@media (max-width: 768px)': {
+        textAlign: 'center'
+      }
     },
     agentId: {
       fontSize: '16px',
       color: '#6b7280',
       margin: '0 0 15px 0',
-      fontWeight: '500'
+      fontWeight: '500',
+      '@media (max-width: 480px)': {
+        fontSize: '14px'
+      }
     },
     profileStatus: {
       display: 'flex',
       alignItems: 'center',
-      gap: '15px'
+      gap: '15px',
+      '@media (max-width: 768px)': {
+        justifyContent: 'center'
+      }
     },
     onlineStatusProfile: {
       display: 'flex',
@@ -203,7 +279,11 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       padding: '8px 16px',
       borderRadius: '20px',
       fontSize: '14px',
-      fontWeight: '600'
+      fontWeight: '600',
+      '@media (max-width: 480px)': {
+        padding: '6px 12px',
+        fontSize: '13px'
+      }
     },
     statusDot: {
       width: '10px',
@@ -214,16 +294,29 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
     },
     statusText: {
       fontSize: '14px',
-      fontWeight: '600'
+      fontWeight: '600',
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     },
     profileDetails: {
-      padding: '40px'
+      padding: '32px',
+      '@media (max-width: 768px)': {
+        padding: '24px'
+      },
+      '@media (max-width: 480px)': {
+        padding: '20px'
+      }
     },
     detailGrid: {
       display: 'grid',
       gridTemplateColumns: 'repeat(2, 1fr)',
-      gap: '25px',
-      marginBottom: '30px'
+      gap: '20px',
+      marginBottom: '24px',
+      '@media (max-width: 768px)': {
+        gridTemplateColumns: '1fr',
+        gap: '16px'
+      }
     },
     detailItem: {
       padding: '20px',
@@ -234,7 +327,11 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       flexDirection: 'column',
       justifyContent: 'center',
       border: '1px solid #e5e7eb',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
+      '@media (max-width: 480px)': {
+        padding: '16px',
+        minHeight: '80px'
+      }
     },
     detailItemFullWidth: {
       gridColumn: '1 / -1',
@@ -246,7 +343,11 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       flexDirection: 'column',
       justifyContent: 'center',
       border: '1px solid #e5e7eb',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
+      '@media (max-width: 480px)': {
+        padding: '16px',
+        minHeight: '80px'
+      }
     },
     detailItemEditing: {
       backgroundColor: '#f0f9ff',
@@ -259,14 +360,21 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       marginBottom: '10px',
       fontWeight: '600',
       textTransform: 'uppercase',
-      letterSpacing: '0.5px'
+      letterSpacing: '0.5px',
+      '@media (max-width: 480px)': {
+        fontSize: '13px',
+        marginBottom: '8px'
+      }
     },
     detailValue: {
       fontSize: '16px',
       color: '#1f2937',
       margin: 0,
       fontWeight: '500',
-      wordBreak: 'break-word'
+      wordBreak: 'break-word',
+      '@media (max-width: 480px)': {
+        fontSize: '15px'
+      }
     },
     editInput: {
       padding: '12px 16px',
@@ -277,7 +385,11 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       boxSizing: 'border-box',
       transition: 'all 0.3s ease',
       fontWeight: '500',
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      '@media (max-width: 480px)': {
+        padding: '10px 14px',
+        fontSize: '15px'
+      }
     },
     editInputLarge: {
       padding: '14px 18px',
@@ -288,7 +400,11 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       boxSizing: 'border-box',
       fontWeight: '500',
       transition: 'all 0.3s ease',
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      '@media (max-width: 480px)': {
+        padding: '12px 16px',
+        fontSize: '16px'
+      }
     },
     editInputError: {
       borderColor: '#EF4444',
@@ -309,7 +425,11 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       transform: 'translateY(-50%)',
       color: '#6b7280',
       fontWeight: '500',
-      fontSize: '16px'
+      fontSize: '16px',
+      '@media (max-width: 480px)': {
+        left: '14px',
+        fontSize: '15px'
+      }
     },
     phoneInput: {
       paddingLeft: '50px'
@@ -321,7 +441,10 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       fontWeight: '500',
       display: 'flex',
       alignItems: 'center',
-      gap: '4px'
+      gap: '4px',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     successText: {
       color: '#10B981',
@@ -330,7 +453,10 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       fontWeight: '500',
       display: 'flex',
       alignItems: 'center',
-      gap: '4px'
+      gap: '4px',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     readOnlyField: {
       opacity: 0.7,
@@ -342,7 +468,10 @@ const Profile = ({ profileData, setShowProfileImageUpload }) => {
       color: '#1f2937',
       margin: '0 0 20px 0',
       paddingBottom: '10px',
-      borderBottom: '2px solid #7C2A62'
+      borderBottom: '2px solid #7C2A62',
+      '@media (max-width: 480px)': {
+        fontSize: '18px'
+      }
     }
   };
 

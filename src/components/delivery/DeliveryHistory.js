@@ -6,35 +6,70 @@ const DeliveryHistory = ({ deliveryData }) => {
 
   const styles = {
     mainContent: {
-      padding: '30px',
-      minHeight: '100vh'
+      padding: '20px',
+      minHeight: '100vh',
+      backgroundColor: '#f8f9fa',
+      '@media (max-width: 768px)': {
+        padding: '16px'
+      },
+      '@media (max-width: 480px)': {
+        padding: '12px'
+      }
     },
     header: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'flex-start',
-      marginBottom: '30px'
+      marginBottom: '24px',
+      flexWrap: 'wrap',
+      gap: '16px',
+      '@media (max-width: 768px)': {
+        flexDirection: 'column',
+        alignItems: 'stretch'
+      }
     },
     greeting: {
       fontSize: '28px',
       fontWeight: '700',
       color: '#1f2937',
-      margin: '0 0 8px 0'
+      margin: '0 0 8px 0',
+      '@media (max-width: 768px)': {
+        fontSize: '24px'
+      },
+      '@media (max-width: 480px)': {
+        fontSize: '20px'
+      }
     },
     subtitle: {
       fontSize: '16px',
       color: '#6b7280',
-      margin: 0
+      margin: 0,
+      '@media (max-width: 480px)': {
+        fontSize: '14px'
+      }
     },
     taskHeaderActions: {
       display: 'flex',
       gap: '16px',
-      alignItems: 'center'
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      '@media (max-width: 768px)': {
+        width: '100%',
+        justifyContent: 'space-between'
+      },
+      '@media (max-width: 480px)': {
+        flexDirection: 'column',
+        gap: '12px',
+        alignItems: 'stretch'
+      }
     },
     searchBox: {
       position: 'relative',
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      '@media (max-width: 480px)': {
+        width: '100%'
+      }
     },
     searchInput: {
       padding: '8px 12px 8px 35px',
@@ -42,7 +77,11 @@ const DeliveryHistory = ({ deliveryData }) => {
       borderRadius: '8px',
       fontSize: '14px',
       width: '250px',
-      outline: 'none'
+      outline: 'none',
+      '@media (max-width: 480px)': {
+        width: '100%',
+        fontSize: '13px'
+      }
     },
     searchIcon: {
       position: 'absolute',
@@ -51,7 +90,11 @@ const DeliveryHistory = ({ deliveryData }) => {
     },
     taskFilters: {
       display: 'flex',
-      gap: '8px'
+      gap: '8px',
+      flexWrap: 'wrap',
+      '@media (max-width: 480px)': {
+        justifyContent: 'center'
+      }
     },
     filterButton: {
       padding: '8px 16px',
@@ -60,7 +103,14 @@ const DeliveryHistory = ({ deliveryData }) => {
       borderRadius: '6px',
       cursor: 'pointer',
       fontSize: '14px',
-      fontWeight: '500'
+      fontWeight: '500',
+      transition: 'all 0.3s ease',
+      '@media (max-width: 480px)': {
+        padding: '6px 12px',
+        fontSize: '13px',
+        flex: '1 1 calc(33.333% - 8px)',
+        textAlign: 'center'
+      }
     },
     filterButtonActive: {
       backgroundColor: '#7C2A62',
@@ -76,13 +126,24 @@ const DeliveryHistory = ({ deliveryData }) => {
       padding: '20px',
       borderRadius: '12px',
       boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-      border: '1px solid #e5e7eb'
+      border: '1px solid #e5e7eb',
+      '@media (max-width: 768px)': {
+        padding: '16px'
+      },
+      '@media (max-width: 480px)': {
+        padding: '12px'
+      }
     },
     taskHeader: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'flex-start',
-      marginBottom: '16px'
+      marginBottom: '16px',
+      gap: '16px',
+      '@media (max-width: 768px)': {
+        flexDirection: 'column',
+        gap: '12px'
+      }
     },
     taskMainInfo: {
       flex: 1
@@ -91,50 +152,83 @@ const DeliveryHistory = ({ deliveryData }) => {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: '8px'
+      marginBottom: '8px',
+      gap: '12px',
+      '@media (max-width: 480px)': {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: '8px'
+      }
     },
     orderId: {
       fontSize: '18px',
       fontWeight: '600',
       color: '#1f2937',
-      margin: 0
+      margin: 0,
+      '@media (max-width: 480px)': {
+        fontSize: '16px'
+      }
     },
     ratingDisplay: {
       display: 'flex',
       alignItems: 'center',
-      gap: '4px'
+      gap: '4px',
+      '@media (max-width: 480px)': {
+        alignSelf: 'flex-start'
+      }
     },
     ratingText: {
       fontSize: '12px',
-      color: '#6b7280'
+      color: '#6b7280',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     customerInfo: {
       fontSize: '14px',
       color: '#6b7280',
-      margin: '4px 0 0 0'
+      margin: '4px 0 0 0',
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     },
     deliveryDate: {
       fontSize: '12px',
       color: '#9ca3af',
-      margin: '4px 0 0 0'
+      margin: '4px 0 0 0',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     taskStatus: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'flex-end',
-      gap: '8px'
+      gap: '8px',
+      '@media (max-width: 768px)': {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%'
+      }
     },
     statusBadge: {
       color: 'white',
       padding: '4px 8px',
       borderRadius: '12px',
       fontSize: '12px',
-      fontWeight: '500'
+      fontWeight: '500',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     amountBadge: {
       fontSize: '16px',
       fontWeight: '600',
-      color: '#7C2A62'
+      color: '#7C2A62',
+      '@media (max-width: 480px)': {
+        fontSize: '15px'
+      }
     },
     taskDetails: {
       marginTop: '16px'
@@ -142,7 +236,11 @@ const DeliveryHistory = ({ deliveryData }) => {
     locationRow: {
       display: 'flex',
       gap: '20px',
-      marginBottom: '12px'
+      marginBottom: '12px',
+      '@media (max-width: 768px)': {
+        flexDirection: 'column',
+        gap: '8px'
+      }
     },
     locationColumn: {
       flex: 1
@@ -150,12 +248,18 @@ const DeliveryHistory = ({ deliveryData }) => {
     detailLabel: {
       fontSize: '14px',
       color: '#6b7280',
-      fontWeight: '500'
+      fontWeight: '500',
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     },
     detailText: {
       fontSize: '14px',
       color: '#1f2937',
-      margin: '4px 0 0 0'
+      margin: '4px 0 0 0',
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     },
     detailSection: {
       marginBottom: '12px'
@@ -164,29 +268,44 @@ const DeliveryHistory = ({ deliveryData }) => {
       fontSize: '14px',
       color: '#1f2937',
       fontStyle: 'italic',
-      margin: '4px 0 0 0'
+      margin: '4px 0 0 0',
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     },
     noTasks: {
       textAlign: 'center',
       padding: '60px 20px',
       backgroundColor: 'white',
       borderRadius: '12px',
-      border: '2px dashed #e5e7eb'
+      border: '2px dashed #e5e7eb',
+      '@media (max-width: 480px)': {
+        padding: '40px 16px'
+      }
     },
     noTasksIcon: {
       fontSize: '48px',
-      marginBottom: '16px'
+      marginBottom: '16px',
+      '@media (max-width: 480px)': {
+        fontSize: '40px'
+      }
     },
     noTasksText: {
       fontSize: '18px',
       fontWeight: '600',
       color: '#374151',
-      margin: '0 0 8px 0'
+      margin: '0 0 8px 0',
+      '@media (max-width: 480px)': {
+        fontSize: '16px'
+      }
     },
     noTasksSubtext: {
       fontSize: '14px',
       color: '#6b7280',
-      margin: 0
+      margin: 0,
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     }
   };
 
@@ -238,7 +357,7 @@ const DeliveryHistory = ({ deliveryData }) => {
               onChange={(e) => setSearchTerm(e.target.value)}
               style={styles.searchInput}
             />
-            <span style={styles.searchIcon}></span>
+            <span style={styles.searchIcon}>🔍</span>
           </div>
           <div style={styles.taskFilters}>
             <button

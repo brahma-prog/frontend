@@ -5,25 +5,47 @@ const Performance = () => {
 
   const styles = {
     mainContent: {
-      padding: '30px',
-      minHeight: '100vh'
+      padding: '20px',
+      minHeight: '100vh',
+      backgroundColor: '#f8f9fa',
+      '@media (max-width: 768px)': {
+        padding: '16px'
+      },
+      '@media (max-width: 480px)': {
+        padding: '12px'
+      }
     },
     header: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'flex-start',
-      marginBottom: '30px'
+      marginBottom: '24px',
+      flexWrap: 'wrap',
+      gap: '16px',
+      '@media (max-width: 768px)': {
+        flexDirection: 'column',
+        alignItems: 'stretch'
+      }
     },
     greeting: {
       fontSize: '28px',
       fontWeight: '700',
       color: '#1f2937',
-      margin: '0 0 8px 0'
+      margin: '0 0 8px 0',
+      '@media (max-width: 768px)': {
+        fontSize: '24px'
+      },
+      '@media (max-width: 480px)': {
+        fontSize: '20px'
+      }
     },
     subtitle: {
       fontSize: '16px',
       color: '#6b7280',
-      margin: 0
+      margin: 0,
+      '@media (max-width: 480px)': {
+        fontSize: '14px'
+      }
     },
     performanceFilters: {
       display: 'flex',
@@ -31,7 +53,12 @@ const Performance = () => {
       backgroundColor: 'white',
       padding: '4px',
       borderRadius: '8px',
-      border: '1px solid #e5e7eb'
+      border: '1px solid #e5e7eb',
+      flexWrap: 'wrap',
+      '@media (max-width: 480px)': {
+        width: '100%',
+        justifyContent: 'center'
+      }
     },
     performanceFilterButton: {
       padding: '8px 16px',
@@ -41,7 +68,13 @@ const Performance = () => {
       cursor: 'pointer',
       fontSize: '14px',
       fontWeight: '500',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
+      '@media (max-width: 480px)': {
+        padding: '6px 12px',
+        fontSize: '13px',
+        flex: '1 1 calc(33.333% - 8px)',
+        textAlign: 'center'
+      }
     },
     performanceFilterButtonActive: {
       backgroundColor: '#7C2A62',
@@ -49,9 +82,13 @@ const Performance = () => {
     },
     performanceGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: '20px',
-      marginBottom: '30px'
+      gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+      gap: '16px',
+      marginBottom: '24px',
+      '@media (max-width: 480px)': {
+        gridTemplateColumns: '1fr',
+        gap: '12px'
+      }
     },
     performanceCard: {
       backgroundColor: 'white',
@@ -61,17 +98,29 @@ const Performance = () => {
       display: 'flex',
       alignItems: 'center',
       gap: '16px',
-      border: '1px solid #e5e7eb'
+      border: '1px solid #e5e7eb',
+      '@media (max-width: 768px)': {
+        padding: '16px'
+      },
+      '@media (max-width: 480px)': {
+        padding: '12px',
+        gap: '12px'
+      }
     },
     performanceIcon: {
-      fontSize: '32px',
+      fontSize: '28px',
       width: '60px',
       height: '60px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: '#F7D9EB',
-      borderRadius: '12px'
+      borderRadius: '12px',
+      '@media (max-width: 480px)': {
+        width: '50px',
+        height: '50px',
+        fontSize: '24px'
+      }
     },
     performanceContent: {
       flex: 1
@@ -80,42 +129,64 @@ const Performance = () => {
       fontSize: '24px',
       fontWeight: '700',
       color: '#1f2937',
-      margin: '0 0 4px 0'
+      margin: '0 0 4px 0',
+      '@media (max-width: 480px)': {
+        fontSize: '20px'
+      }
     },
     performanceLabel: {
       fontSize: '14px',
       color: '#6b7280',
       margin: 0,
-      textTransform: 'capitalize'
+      textTransform: 'capitalize',
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     },
     chartContainer: {
       backgroundColor: 'white',
-      padding: '24px',
+      padding: '20px',
       borderRadius: '12px',
       boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-      marginBottom: '24px'
+      marginBottom: '20px',
+      '@media (max-width: 768px)': {
+        padding: '16px'
+      }
     },
     sectionTitle: {
       fontSize: '20px',
       fontWeight: '600',
       color: '#1f2937',
-      margin: '0 0 16px 0'
+      margin: '0 0 16px 0',
+      '@media (max-width: 480px)': {
+        fontSize: '18px'
+      }
     },
     performanceChart: {
       display: 'flex',
       alignItems: 'flex-end',
-      gap: '20px',
+      gap: '16px',
       height: '200px',
       padding: '20px',
       backgroundColor: '#f8fafc',
       borderRadius: '8px',
-      marginBottom: '20px'
+      marginBottom: '20px',
+      overflowX: 'auto',
+      '@media (max-width: 768px)': {
+        gap: '12px',
+        padding: '16px'
+      },
+      '@media (max-width: 480px)': {
+        height: '180px',
+        padding: '12px'
+      }
     },
     weekBar: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      flex: 1
+      flex: 1,
+      minWidth: '60px'
     },
     barContainer: {
       display: 'flex',
@@ -128,30 +199,45 @@ const Performance = () => {
       width: '20px',
       backgroundColor: '#7C2A62',
       borderRadius: '4px 4px 0 0',
-      minHeight: '4px'
+      minHeight: '4px',
+      '@media (max-width: 480px)': {
+        width: '16px'
+      }
     },
     ratingBar: {
       width: '20px',
       backgroundColor: '#10B981',
       borderRadius: '4px 4px 0 0',
-      minHeight: '4px'
+      minHeight: '4px',
+      '@media (max-width: 480px)': {
+        width: '16px'
+      }
     },
     weekLabel: {
       fontSize: '12px',
       color: '#6b7280',
-      fontWeight: '500'
+      fontWeight: '500',
+      textAlign: 'center',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     chartLegend: {
       display: 'flex',
       gap: '16px',
-      marginTop: '16px'
+      marginTop: '16px',
+      justifyContent: 'center',
+      flexWrap: 'wrap'
     },
     legendItem: {
       display: 'flex',
       alignItems: 'center',
       gap: '6px',
       fontSize: '12px',
-      color: '#6b7280'
+      color: '#6b7280',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     legendColor: {
       width: '12px',

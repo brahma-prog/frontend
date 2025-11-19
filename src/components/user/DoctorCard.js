@@ -1,5 +1,6 @@
 import React from 'react';
-import { styles } from './Styles';
+import styles from './Styles';
+ 
 
 const DoctorCard = ({ doctor, handleBookAppointment, startDoctorChat }) => {
   return (

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { styles } from './Styles';
+import styles from './Styles';
+ 
 
 const Modals = ({
   showCheckoutConfirm,
@@ -491,10 +492,34 @@ const Modals = ({
     </div>
   );
 
-  // Pharmacy Store Modal
+  // Pharmacy Store Modal - FIXED VERSION
   const PharmacyStoreModal = () => {
     const filteredMedicines = getFilteredPharmacyMedicines(selectedPharmacy);
     const searchQuery = pharmacySearchQueries[selectedPharmacy?.id] || '';
+    const searchInputRef = useRef(null);
+
+    // Focus search input when modal opens
+    useEffect(() => {
+      if (showPharmacyStore && searchInputRef.current) {
+        // Small timeout to ensure modal is fully rendered
+        setTimeout(() => {
+          searchInputRef.current?.focus();
+        }, 100);
+      }
+    }, [showPharmacyStore]);
+
+    const handleSearchChange = (e) => {
+      e.stopPropagation(); // Prevent event bubbling
+      handlePharmacySearch(selectedPharmacy.id, e.target.value);
+    };
+
+    const handleSearchClick = (e) => {
+      e.stopPropagation(); // Prevent event bubbling
+    };
+
+    const handleSearchKeyDown = (e) => {
+      e.stopPropagation(); // Prevent event bubbling on key events
+    };
 
     // Medicine Card with Quantity Controls for Pharmacy Store
     const PharmacyMedicineCard = ({ medicine }) => {
@@ -563,13 +588,17 @@ const Modals = ({
             </div>
           </div>
 
-          {/* Search Bar for Pharmacy Medicines */}
+          {/* Search Bar for Pharmacy Medicines - FIXED */}
           <div style={styles.pharmacySearchSection}>
             <input
+              ref={searchInputRef}
               type="text"
               placeholder="Search for medicines in this pharmacy..."
               value={searchQuery}
-              onChange={(e) => handlePharmacySearch(selectedPharmacy.id, e.target.value)}
+              onChange={handleSearchChange}
+              onClick={handleSearchClick}
+              onKeyDown={handleSearchKeyDown}
+              onFocus={handleSearchClick}
               style={styles.pharmacySearchInput}
             />
           </div>

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { styles } from './Styles';
+import styles from './Styles';
+ 
 
 const OrdersView = ({
   orders,

@@ -1,6 +1,7 @@
 import React from 'react';
 import DoctorCard from './DoctorCard';
-import { styles } from './Styles';
+import styles from './Styles';
+ 
 
 const ConsultationView = ({
   doctorSearchQuery,

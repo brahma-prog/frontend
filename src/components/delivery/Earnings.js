@@ -5,25 +5,47 @@ const Earnings = ({ deliveryData }) => {
 
   const styles = {
     mainContent: {
-      padding: '30px',
-      minHeight: '100vh'
+      padding: '20px',
+      minHeight: '100vh',
+      backgroundColor: '#f8f9fa',
+      '@media (max-width: 768px)': {
+        padding: '16px'
+      },
+      '@media (max-width: 480px)': {
+        padding: '12px'
+      }
     },
     header: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'flex-start',
-      marginBottom: '30px'
+      marginBottom: '24px',
+      flexWrap: 'wrap',
+      gap: '16px',
+      '@media (max-width: 768px)': {
+        flexDirection: 'column',
+        alignItems: 'stretch'
+      }
     },
     greeting: {
       fontSize: '28px',
       fontWeight: '700',
       color: '#1f2937',
-      margin: '0 0 8px 0'
+      margin: '0 0 8px 0',
+      '@media (max-width: 768px)': {
+        fontSize: '24px'
+      },
+      '@media (max-width: 480px)': {
+        fontSize: '20px'
+      }
     },
     subtitle: {
       fontSize: '16px',
       color: '#6b7280',
-      margin: 0
+      margin: 0,
+      '@media (max-width: 480px)': {
+        fontSize: '14px'
+      }
     },
     earningFilters: {
       display: 'flex',
@@ -32,7 +54,12 @@ const Earnings = ({ deliveryData }) => {
       padding: '4px',
       borderRadius: '8px',
       border: '1px solid #e5e7eb',
-      alignItems: 'center'
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      '@media (max-width: 480px)': {
+        width: '100%',
+        justifyContent: 'center'
+      }
     },
     earningFilter: {
       padding: '8px 16px',
@@ -45,14 +72,24 @@ const Earnings = ({ deliveryData }) => {
       transition: 'all 0.3s ease',
       display: 'flex',
       alignItems: 'center',
-      gap: '6px'
+      gap: '6px',
+      '@media (max-width: 480px)': {
+        padding: '6px 12px',
+        fontSize: '13px',
+        flex: '1 1 calc(50% - 8px)',
+        justifyContent: 'center'
+      }
     },
     earningFilterActive: {
       backgroundColor: '#7C2A62',
       color: 'white'
     },
     monthDropdown: {
-      marginLeft: '0'
+      marginLeft: '0',
+      '@media (max-width: 480px)': {
+        width: '100%',
+        marginTop: '8px'
+      }
     },
     monthSelect: {
       padding: '8px 12px',
@@ -60,37 +97,57 @@ const Earnings = ({ deliveryData }) => {
       borderRadius: '6px',
       fontSize: '14px',
       backgroundColor: 'white',
-      minWidth: '150px'
+      minWidth: '150px',
+      '@media (max-width: 480px)': {
+        width: '100%',
+        minWidth: 'auto'
+      }
     },
     earningsSummary: {
       backgroundColor: 'white',
-      padding: '24px',
+      padding: '20px',
       borderRadius: '12px',
       boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-      marginBottom: '24px'
+      marginBottom: '20px',
+      '@media (max-width: 768px)': {
+        padding: '16px'
+      }
     },
     earningStats: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(4, 1fr)',
-      gap: '20px'
+      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+      gap: '16px',
+      '@media (max-width: 480px)': {
+        gridTemplateColumns: '1fr',
+        gap: '12px'
+      }
     },
     earningStat: {
       textAlign: 'center',
       padding: '16px',
       backgroundColor: '#f8fafc',
-      borderRadius: '8px'
+      borderRadius: '8px',
+      '@media (max-width: 480px)': {
+        padding: '12px'
+      }
     },
     earningAmount: {
-      fontSize: '24px',
+      fontSize: '20px',
       fontWeight: '700',
       color: '#7C2A62',
-      margin: '0 0 8px 0'
+      margin: '0 0 8px 0',
+      '@media (max-width: 480px)': {
+        fontSize: '18px'
+      }
     },
     earningLabel: {
       fontSize: '14px',
       color: '#6b7280',
       margin: '0 0 12px 0',
-      fontWeight: '500'
+      fontWeight: '500',
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     },
     metricDetail: {
       display: 'flex',
@@ -102,36 +159,56 @@ const Earnings = ({ deliveryData }) => {
     metricValue: {
       fontSize: '16px',
       fontWeight: '600',
-      color: '#1f2937'
+      color: '#1f2937',
+      '@media (max-width: 480px)': {
+        fontSize: '15px'
+      }
     },
     metricLabel: {
       fontSize: '12px',
-      color: '#6b7280'
+      color: '#6b7280',
+      '@media (max-width: 480px)': {
+        fontSize: '11px'
+      }
     },
     sectionTitle: {
       fontSize: '20px',
       fontWeight: '600',
       color: '#1f2937',
-      margin: '0 0 16px 0'
+      margin: '0 0 16px 0',
+      '@media (max-width: 480px)': {
+        fontSize: '18px'
+      }
     },
     sectionHeader: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: '20px'
+      marginBottom: '20px',
+      '@media (max-width: 480px)': {
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: '8px'
+      }
     },
     viewAll: {
       fontSize: '14px',
       color: '#7C2A62',
       fontWeight: '500',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     },
     earningsHistory: {
       backgroundColor: 'white',
-      padding: '24px',
+      padding: '20px',
       borderRadius: '12px',
       boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-      marginBottom: '24px'
+      marginBottom: '20px',
+      '@media (max-width: 768px)': {
+        padding: '16px'
+      }
     },
     earningsList: {
       display: 'flex',
@@ -145,7 +222,12 @@ const Earnings = ({ deliveryData }) => {
       padding: '16px',
       border: '1px solid #e5e7eb',
       borderRadius: '8px',
-      transition: 'all 0.3s ease'
+      transition: 'all 0.3s ease',
+      '@media (max-width: 480px)': {
+        flexDirection: 'column',
+        gap: '8px',
+        padding: '12px'
+      }
     },
     earningDate: {
       flex: 1
@@ -154,12 +236,19 @@ const Earnings = ({ deliveryData }) => {
       fontSize: '14px',
       color: '#1f2937',
       marginBottom: '8px',
-      display: 'block'
+      display: 'block',
+      fontWeight: '600',
+      '@media (max-width: 480px)': {
+        fontSize: '13px'
+      }
     },
     earningMeta: {
       display: 'flex',
       gap: '8px',
-      flexWrap: 'wrap'
+      flexWrap: 'wrap',
+      '@media (max-width: 480px)': {
+        gap: '6px'
+      }
     },
     metaBadge: {
       fontSize: '11px',
@@ -167,12 +256,20 @@ const Earnings = ({ deliveryData }) => {
       backgroundColor: '#f3f4f6',
       color: '#6b7280',
       borderRadius: '12px',
-      fontWeight: '500'
+      fontWeight: '500',
+      '@media (max-width: 480px)': {
+        fontSize: '10px',
+        padding: '3px 6px'
+      }
     },
     earningAmountItem: {
       fontSize: '16px',
       fontWeight: '600',
-      color: '#7C2A62'
+      color: '#7C2A62',
+      '@media (max-width: 480px)': {
+        fontSize: '15px',
+        alignSelf: 'flex-end'
+      }
     }
   };
 
@@ -410,4 +507,4 @@ const Earnings = ({ deliveryData }) => {
   );
 };
 
-export default Earnings;
+export default Earnings; 
