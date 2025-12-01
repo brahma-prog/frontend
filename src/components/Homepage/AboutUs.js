@@ -5,6 +5,7 @@ const AboutUs = ({ onNavigateToAuth }) => {
   const [isTablet, setIsTablet] = useState(false);
   const [showLearnMoreModal, setShowLearnMoreModal] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -23,13 +24,18 @@ const AboutUs = ({ onNavigateToAuth }) => {
   }, []);
 
   const handleBookAppointment = () => {
-    const confirmLogin = window.confirm(
-      'To book an appointment, you need to login first.\n\nClick OK to proceed to login page.'
-    );
-    
-    if (confirmLogin && onNavigateToAuth) {
+    setShowLoginPrompt(true);
+  };
+
+  const handleLoginConfirm = () => {
+    setShowLoginPrompt(false);
+    if (onNavigateToAuth) {
       onNavigateToAuth();
     }
+  };
+
+  const handleLoginCancel = () => {
+    setShowLoginPrompt(false);
   };
 
   const handleLearnMore = () => {
@@ -509,6 +515,72 @@ const AboutUs = ({ onNavigateToAuth }) => {
       marginTop: '0.2rem',
       flexShrink: 0,
     },
+    // Login Prompt Modal Styles
+    loginPromptModal: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+      padding: isMobile ? '0.5rem' : '1rem',
+      backdropFilter: 'blur(5px)',
+    },
+    loginPromptContent: {
+      backgroundColor: 'white',
+      padding: isMobile ? '1.5rem' : '2rem',
+      borderRadius: '15px',
+      maxWidth: isMobile ? '90%' : '400px',
+      width: '100%',
+      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+      textAlign: 'center',
+    },
+    loginPromptTitle: {
+      fontSize: isMobile ? '1.3rem' : '1.5rem',
+      color: '#7C2A62',
+      marginBottom: '1rem',
+      fontWeight: 'bold',
+    },
+    loginPromptText: {
+      fontSize: isMobile ? '1rem' : '1.1rem',
+      color: '#666',
+      marginBottom: '2rem',
+      lineHeight: '1.5',
+    },
+    loginPromptButtons: {
+      display: 'flex',
+      gap: '1rem',
+      justifyContent: 'center',
+      flexDirection: isMobile ? 'column' : 'row',
+    },
+    loginButton: {
+      padding: isMobile ? '0.8rem 2rem' : '1rem 2.5rem',
+      backgroundColor: '#7C2A62',
+      color: 'white',
+      border: 'none',
+      borderRadius: '25px',
+      cursor: 'pointer',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      fontWeight: 'bold',
+      transition: 'all 0.3s ease',
+      flex: isMobile ? 1 : 'none',
+    },
+    cancelLoginButton: {
+      padding: isMobile ? '0.8rem 2rem' : '1rem 2.5rem',
+      backgroundColor: '#666',
+      color: 'white',
+      border: 'none',
+      borderRadius: '25px',
+      cursor: 'pointer',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      fontWeight: 'bold',
+      transition: 'all 0.3s ease',
+      flex: isMobile ? 1 : 'none',
+    },
   };
 
   const values = [
@@ -685,6 +757,50 @@ const AboutUs = ({ onNavigateToAuth }) => {
                 Your health journey starts here. We're committed to making it smooth, safe, and successful.
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // Login Prompt Modal Component
+  const LoginPromptModal = ({ onConfirm, onCancel }) => {
+    return (
+      <div style={styles.loginPromptModal} onClick={onCancel}>
+        <div style={styles.loginPromptContent} onClick={(e) => e.stopPropagation()}>
+          <h2 style={styles.loginPromptTitle}>Login Required</h2>
+          <p style={styles.loginPromptText}>
+            Please login to book an appointment and access all our healthcare features.
+          </p>
+          <div style={styles.loginPromptButtons}>
+            <button 
+              style={styles.cancelLoginButton}
+              onClick={onCancel}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#888';
+                e.target.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#666';
+                e.target.style.transform = 'translateY(0)';
+              }}
+            >
+              Cancel
+            </button>
+            <button 
+              style={styles.loginButton}
+              onClick={onConfirm}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#9C3A7A';
+                e.target.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#7C2A62';
+                e.target.style.transform = 'translateY(0)';
+              }}
+            >
+              Go to Login
+            </button>
           </div>
         </div>
       </div>
@@ -957,6 +1073,14 @@ const AboutUs = ({ onNavigateToAuth }) => {
       {/* Learn More Modal */}
       {showLearnMoreModal && (
         <LearnMoreModal onClose={closeLearnMoreModal} />
+      )}
+
+      {/* Login Prompt Modal */}
+      {showLoginPrompt && (
+        <LoginPromptModal 
+          onConfirm={handleLoginConfirm}
+          onCancel={handleLoginCancel}
+        />
       )}
     </>
   );

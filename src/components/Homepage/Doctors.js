@@ -8,6 +8,9 @@ const Doctors = ({ onNavigateToLogin }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [bookingDoctor, setBookingDoctor] = useState(null);
+  const [bookingSlot, setBookingSlot] = useState(null);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -412,7 +415,73 @@ const Doctors = ({ onNavigateToLogin }) => {
       marginBottom: '1rem',
       textAlign: 'center',
       fontSize: isMobile ? '0.9rem' : '1rem',
-    }
+    },
+    // Login Prompt Modal Styles
+    loginPromptModal: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1001,
+      padding: isMobile ? '0.5rem' : '1rem',
+      backdropFilter: 'blur(5px)',
+    },
+    loginPromptContent: {
+      backgroundColor: 'white',
+      padding: isMobile ? '1.5rem' : '2rem',
+      borderRadius: '15px',
+      maxWidth: isMobile ? '90%' : '400px',
+      width: '100%',
+      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+      textAlign: 'center',
+    },
+    loginPromptTitle: {
+      fontSize: isMobile ? '1.3rem' : '1.5rem',
+      color: '#7C2A62',
+      marginBottom: '1rem',
+      fontWeight: 'bold',
+    },
+    loginPromptText: {
+      fontSize: isMobile ? '1rem' : '1.1rem',
+      color: '#666',
+      marginBottom: '2rem',
+      lineHeight: '1.5',
+    },
+    loginPromptButtons: {
+      display: 'flex',
+      gap: '1rem',
+      justifyContent: 'center',
+      flexDirection: isMobile ? 'column' : 'row',
+    },
+    loginButton: {
+      padding: isMobile ? '0.8rem 2rem' : '1rem 2.5rem',
+      backgroundColor: '#7C2A62',
+      color: 'white',
+      border: 'none',
+      borderRadius: '25px',
+      cursor: 'pointer',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      fontWeight: 'bold',
+      transition: 'all 0.3s ease',
+      flex: isMobile ? 1 : 'none',
+    },
+    cancelLoginButton: {
+      padding: isMobile ? '0.8rem 2rem' : '1rem 2.5rem',
+      backgroundColor: '#666',
+      color: 'white',
+      border: 'none',
+      borderRadius: '25px',
+      cursor: 'pointer',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      fontWeight: 'bold',
+      transition: 'all 0.3s ease',
+      flex: isMobile ? 1 : 'none',
+    },
   };
 
   const doctors = [
@@ -573,32 +642,38 @@ const Doctors = ({ onNavigateToLogin }) => {
   };
 
   const handleBookConsultation = (doctor = null) => {
-    const doctorName = doctor ? doctor.name : (selectedDoctor ? selectedDoctor.name : 'the doctor');
+    const doctorToBook = doctor || selectedDoctor;
+    const doctorName = doctorToBook ? doctorToBook.name : 'the doctor';
     const slotInfo = selectedSlot ? ` for ${formatSlotTime(selectedSlot)}` : '';
     
     if (!selectedSlot && selectedDoctor) {
+      // If in profile modal but no slot selected
       alert('Please select a time slot first to book consultation with ' + doctorName);
       return;
     }
     
-    // Show confirmation message
-    const confirmMessage = selectedSlot 
-      ? `Booking consultation with ${doctorName}${slotInfo}. Please login to confirm.`
-      : `Booking consultation with ${doctorName}. Please login to confirm.`;
-    
-    const userConfirmed = window.confirm(confirmMessage + '\n\nClick OK to proceed to login page.');
-    
-    if (userConfirmed) {
-      // Close the profile modal if open
-      if (selectedDoctor) {
-        handleCloseProfile();
-      }
-      
-      // Navigate to login page
-      if (onNavigateToLogin) {
-        onNavigateToLogin();
-      }
+    // Store booking info and show login prompt
+    setBookingDoctor(doctorToBook);
+    setBookingSlot(selectedSlot);
+    setShowLoginPrompt(true);
+  };
+
+  const handleLoginConfirm = () => {
+    setShowLoginPrompt(false);
+    // Close the profile modal if open
+    if (selectedDoctor) {
+      handleCloseProfile();
     }
+    // Navigate to login page
+    if (onNavigateToLogin) {
+      onNavigateToLogin();
+    }
+  };
+
+  const handleLoginCancel = () => {
+    setShowLoginPrompt(false);
+    setBookingDoctor(null);
+    setBookingSlot(null);
   };
 
   const handleLoginLinkClick = () => {
@@ -626,6 +701,53 @@ const Doctors = ({ onNavigateToLogin }) => {
     top: Math.random() * 100,
     animationDelay: Math.random() * 5,
   }));
+
+  // Login Prompt Modal Component
+  const LoginPromptModal = ({ onConfirm, onCancel, doctor, slot }) => {
+    const doctorName = doctor ? doctor.name : 'the doctor';
+    const slotInfo = slot ? ` at ${formatSlotTime(slot)}` : '';
+    
+    return (
+      <div style={styles.loginPromptModal} onClick={onCancel}>
+        <div style={styles.loginPromptContent} onClick={(e) => e.stopPropagation()}>
+          <h2 style={styles.loginPromptTitle}>Login Required</h2>
+          <p style={styles.loginPromptText}>
+            Please login to book consultation with Dr. {doctorName}{slotInfo} and access all our healthcare features.
+          </p>
+          <div style={styles.loginPromptButtons}>
+            <button 
+              style={styles.cancelLoginButton}
+              onClick={onCancel}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#888';
+                e.target.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#666';
+                e.target.style.transform = 'translateY(0)';
+              }}
+            >
+              Cancel
+            </button>
+            <button 
+              style={styles.loginButton}
+              onClick={onConfirm}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#9C3A7A';
+                e.target.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#7C2A62';
+                e.target.style.transform = 'translateY(0)';
+              }}
+            >
+              Go to Login
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section style={styles.doctors}>
@@ -860,6 +982,16 @@ const Doctors = ({ onNavigateToLogin }) => {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Login Prompt Modal */}
+        {showLoginPrompt && (
+          <LoginPromptModal 
+            onConfirm={handleLoginConfirm}
+            onCancel={handleLoginCancel}
+            doctor={bookingDoctor}
+            slot={bookingSlot}
+          />
         )}
       </div>
     </section>

@@ -182,12 +182,11 @@ const VendorSidebar = ({
     opacity: 0.8
   };
 
-  const navButtonActiveStyle = {
-    backgroundColor: 'rgba(0,0,0,0.08)',
-    opacity: 1,
-    borderRight: '3px solid #7C2A62',
-    fontWeight: '600'
-  };
+ const navButtonActiveStyle = {
+  backgroundColor: 'rgba(0,0,0,0.08)',
+  opacity: 1,
+  fontWeight: '600'
+};
 
   const navIconStyle = {
     fontSize: '18px',

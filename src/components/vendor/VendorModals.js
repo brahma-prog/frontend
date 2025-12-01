@@ -652,6 +652,8 @@ const EditStockModal = ({ show, onClose, onUpdate, editingMedicine, setEditingMe
   );
 };
 
+// ... (other modal components remain the same)
+
 const ProfileModal = ({ show, onClose, onUpdate, userProfile, setUserProfile, formErrors, validateField }) => {
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -665,6 +667,19 @@ const ProfileModal = ({ show, onClose, onUpdate, userProfile, setUserProfile, fo
       validateField(name, value);
     }
   }, [setUserProfile, validateField]);
+
+  // Check if profile is complete
+  const isProfileComplete = 
+    userProfile?.fullName?.trim() && 
+    userProfile?.email?.trim() && 
+    userProfile?.phone?.trim() && 
+    userProfile?.pharmacyName?.trim() && 
+    userProfile?.licenseNumber?.trim() && 
+    userProfile?.gstNumber?.trim() && 
+    userProfile?.address?.trim() && 
+    userProfile?.city?.trim() && 
+    userProfile?.state?.trim() && 
+    userProfile?.pincode?.trim();
 
   const modalOverlayStyle = {
     position: 'fixed',
@@ -779,6 +794,24 @@ const ProfileModal = ({ show, onClose, onUpdate, userProfile, setUserProfile, fo
     marginTop: '16px'
   };
 
+  const completionStatusStyle = {
+    backgroundColor: isProfileComplete ? '#D1FAE5' : '#FEF3C7',
+    border: `1px solid ${isProfileComplete ? '#10B981' : '#F59E0B'}`,
+    borderRadius: '8px',
+    padding: '12px 16px',
+    marginBottom: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px'
+  };
+
+  const completionTextStyle = {
+    fontSize: '14px',
+    color: isProfileComplete ? '#065F46' : '#92400E',
+    fontWeight: '500',
+    margin: 0
+  };
+
   const modalActionsStyle = {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -817,7 +850,9 @@ const ProfileModal = ({ show, onClose, onUpdate, userProfile, setUserProfile, fo
     <div style={modalOverlayStyle}>
       <div style={modalStyle}>
         <div style={modalHeaderStyle}>
-          <h3 style={modalTitleStyle}>Edit Pharmacy Profile</h3>
+          <h3 style={modalTitleStyle}>
+            {isProfileComplete ? 'Edit Pharmacy Profile' : 'Complete Your Profile'}
+          </h3>
           <button 
             style={closeButtonStyle}
             onClick={onClose}
@@ -826,6 +861,17 @@ const ProfileModal = ({ show, onClose, onUpdate, userProfile, setUserProfile, fo
           </button>
         </div>
         <div style={modalContentStyle}>
+          {/* Profile Completion Status */}
+          <div style={completionStatusStyle}>
+            <span>{isProfileComplete ? '✅' : '⚠️'}</span>
+            <p style={completionTextStyle}>
+              {isProfileComplete 
+                ? 'Your profile is complete! You can now accept orders.'
+                : 'Complete all required fields to start accepting orders.'
+              }
+            </p>
+          </div>
+
           <div style={formGridStyle}>
             <div style={formRowStyle}>
               <label style={labelStyle}>Owner Name *</label>
@@ -850,16 +896,12 @@ const ProfileModal = ({ show, onClose, onUpdate, userProfile, setUserProfile, fo
                 name="email"
                 style={{
                   ...inputStyle,
-                  ...lockedFieldStyle,
                   ...(formErrors.email && inputErrorStyle)
                 }}
                 value={userProfile.email}
                 onChange={handleChange}
                 placeholder="Enter your email"
-                disabled
-                title="Email cannot be changed"
               />
-              <div style={lockedNoteStyle}>Email cannot be changed</div>
               {formErrors.email && <div style={errorTextStyle}>{formErrors.email}</div>}
             </div>
           </div>
@@ -1045,7 +1087,7 @@ const ProfileModal = ({ show, onClose, onUpdate, userProfile, setUserProfile, fo
             onClick={onUpdate}
             disabled={Object.keys(formErrors).some(key => formErrors[key])}
           >
-            Update Profile
+            {isProfileComplete ? 'Update Profile' : 'Complete Profile'}
           </button>
         </div>
       </div>
@@ -1053,6 +1095,7 @@ const ProfileModal = ({ show, onClose, onUpdate, userProfile, setUserProfile, fo
   );
 };
 
+// ... (other modal components remain the same)
 const NotificationsModal = ({ show, onClose, onSave, notificationSettings, setNotificationSettings }) => {
   const handleChange = useCallback((e) => {
     const { name, checked } = e.target;

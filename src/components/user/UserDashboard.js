@@ -14,7 +14,6 @@ import Products from './Products';
 import AIChatbotWidget from './AIChatbotWidget';
 import { ProfileProvider, useProfile } from './ProfileContext';
 
-
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -310,11 +309,6 @@ const UserDashboardContent = ({ user, onLogout }) => {
       return;
     }
     
-    if (typeof setActiveView !== 'function') {
-      console.error('setActiveView is not a function');
-      return;
-    }
-    
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
       setActiveView(view);
@@ -323,12 +317,8 @@ const UserDashboardContent = ({ user, onLogout }) => {
 
   // Safe navigation function to pass to components
   const safeSetActiveView = useCallback((view) => {
-    if (typeof setActiveView === 'function') {
-      handleNavigation(view);
-    } else {
-      console.error('setActiveView is not available');
-    }
-  }, [handleNavigation, setActiveView]);
+    handleNavigation(view);
+  }, [handleNavigation]);
 
   // Notification functions
   const addNotification = useCallback((title, message, type = 'info') => {
@@ -965,7 +955,7 @@ const UserDashboardContent = ({ user, onLogout }) => {
       borderRadius: '20px',
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
       width: '100%',
-      marginTop: '30px', // Added gap between header and welcome section
+      marginTop: '30px',
     },
     welcomeTitle: {
       fontSize: 'clamp(2rem, 5vw, 3rem)',

@@ -171,7 +171,7 @@ const AppointmentsView = ({
 
   // Doctor information data
   const doctorInfo = {
-    "Dr. Brahma Gadikoto": {
+    "Dr. Brahma Gadikota": {
       specialty: "General Physician",
       experience: "15+ years",
       education: "MBBS, MD - General Medicine",
@@ -617,7 +617,7 @@ const AppointmentsView = ({
             }}>
               <input
                 type="text"
-                placeholder="Search doctors, specialties, or appointment ID..."
+                placeholder="Search "
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{
@@ -669,7 +669,7 @@ const AppointmentsView = ({
               }}
               type="button"
             >
-              + Book New Appointment
+               Book New Appointment
             </button>
           </div>
         </div>

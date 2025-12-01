@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 const Hero = ({ onSectionChange, onNavigateToAuth }) => {
@@ -9,6 +8,8 @@ const Hero = ({ onSectionChange, onNavigateToAuth }) => {
   const [showChatbot, setShowChatbot] = useState(false);
   const [chatMessages, setChatMessages] = useState([]);
   const [userInput, setUserInput] = useState('');
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [loginPromptType, setLoginPromptType] = useState('');
 
   useEffect(() => {
     setIsVisible(true);
@@ -42,23 +43,22 @@ const Hero = ({ onSectionChange, onNavigateToAuth }) => {
   };
 
   const handleOrderMedicines = () => {
-    const confirmLogin = window.confirm(
-      'To order medicines, you need to login first.\n\nClick OK to proceed to login page.'
-    );
-    
-    if (confirmLogin) {
-      handleAuthNavigation();
-    }
+    setLoginPromptType('medicine');
+    setShowLoginPrompt(true);
   };
 
   const handleConsultDoctor = () => {
-    const confirmLogin = window.confirm(
-      'To consult with a doctor, you need to login first.\n\nClick OK to proceed to login page.'
-    );
-    
-    if (confirmLogin) {
-      handleAuthNavigation();
-    }
+    setLoginPromptType('doctor');
+    setShowLoginPrompt(true);
+  };
+
+  const handleLoginConfirm = () => {
+    setShowLoginPrompt(false);
+    handleAuthNavigation();
+  };
+
+  const handleLoginCancel = () => {
+    setShowLoginPrompt(false);
   };
 
   // Service Details Handlers
@@ -78,8 +78,8 @@ const Hero = ({ onSectionChange, onNavigateToAuth }) => {
     setShowServiceDetails('healthPackages');
   };
 
-  const handleLabTestsClick = () => {
-    setShowServiceDetails('labTests');
+  const handlePregnancyCareClick = () => {
+    setShowServiceDetails('pregnancyCare');
   };
 
   const handleMedicalRecordsClick = () => {
@@ -203,19 +203,21 @@ const Hero = ({ onSectionChange, onNavigateToAuth }) => {
       return "⏱️ We guarantee medicine delivery within 30-40 minutes! Doctor consultations can be scheduled immediately or at your preferred time. Lab test results are delivered within 6-24 hours.";
     } else if (input.includes('login') || input.includes('sign up')) {
       return "🔐 To access all features, please login or create an account. You can use the 'Order Medicines Now' or 'Consult Doctor Online' buttons to get started!";
+    } else if (input.includes('pregnancy') || input.includes('women') || input.includes('maternity')) {
+      return "🤰 We offer specialized pregnancy care with expert gynecologists! Get free first consultation, personalized care plans, and 24/7 support throughout your pregnancy journey.";
     } else if (input.includes('thank') || input.includes('thanks')) {
       return "You're welcome! 😊 Is there anything else I can help you with regarding our healthcare services?";
     } else {
-      return "I understand you're looking for: '" + userInput + "'. I can help you with:\n• Medicine delivery 🚀\n• Doctor consultations 👨‍⚕️\n• Lab tests 🩺\n• Health packages 💊\n• Emergency services 🚨\n• Pricing information 💰\n\nHow can I assist you specifically?";
+      return "I understand you're looking for: '" + userInput + "'. I can help you with:\n• Medicine delivery 🚀\n• Doctor consultations 👨‍⚕️\n• Pregnancy care 🤰\n• Health packages 💊\n• Emergency services 🚨\n• Pricing information 💰\n\nHow can I assist you specifically?";
     }
   };
 
   const quickReplies = [
     "How to order medicines?",
     "Book doctor appointment",
+    "Pregnancy care services",
     "Emergency help",
-    "Price information",
-    "Delivery time"
+    "Price information"
   ];
 
   const handleQuickReply = (reply) => {
@@ -247,7 +249,7 @@ const Hero = ({ onSectionChange, onNavigateToAuth }) => {
       ]
     },
     doctorConsultation: {
-      title: '🎥 Online Doctor Consultation',
+      title: ' Online Doctor Consultation',
       description: 'Connect with experienced doctors via video call for comprehensive medical consultations. Get expert advice, prescriptions, and follow-up care from the comfort of your home.',
       features: [
         '👨‍⚕️ 100+ Expert Doctors',
@@ -303,27 +305,27 @@ const Hero = ({ onSectionChange, onNavigateToAuth }) => {
         '5. Free doctor consultation included'
       ]
     },
-    labTests: {
-      title: ' At-Home Lab Tests',
-      description: 'Get diagnostic tests done at your home by certified professionals. Accurate results, convenient scheduling, and expert interpretation.',
+    pregnancyCare: {
+      title: ' Pregnancy Care for Women',
+      description: 'Comprehensive maternity care with expert gynecologists. From conception to delivery, we provide complete support, monitoring, and guidance for a healthy pregnancy journey.',
       features: [
-        '🏠 Home Sample Collection',
-        '🔬 1000+ Tests Available',
-        '👨‍🔬 Certified Technicians',
-        '📊 Digital Reports',
-        '👨‍⚕️ Free Doctor Consultation',
-        '💰 Affordable Pricing'
+        '👩‍⚕️ Expert Gynecologists',
+        '🎯 Free First Consultation',
+        '📅 Personalized Care Plans',
+        '📱 24/7 Support & Monitoring',
+        '🩺 Regular Health Checkups',
+        '💊 Prenatal Vitamin Guidance'
       ],
       process: [
-        '1. Book test & select time slot',
-        '2. Technician visits your home',
-        '3. Sample collection with safety protocols',
-        '4. Get reports within 6-24 hours',
-        '5. Free doctor consultation on report'
+        '1. Book FREE first consultation',
+        '2. Get personalized pregnancy plan',
+        '3. Regular monitoring & checkups',
+        '4. Nutrition & lifestyle guidance',
+        '5. 24/7 emergency support'
       ]
     },
     medicalRecords: {
-      title: ' Digital Medical Records',
+      title: '📁 Digital Medical Records',
       description: 'Store and access all your medical records securely in one place. Share with doctors easily and maintain your complete health history.',
       features: [
         '🔐 Secure Cloud Storage',
@@ -356,51 +358,61 @@ const Hero = ({ onSectionChange, onNavigateToAuth }) => {
     {
       name: 'Medicine Delivery',
       description: 'Prescription and OTC medicines delivered to your doorstep within 30-40 minutes',
-      onClick: handleMedicineDeliveryClick
+      onClick: handleMedicineDeliveryClick,
+      
     },
     {
       name: 'Doctor Consultation',
       description: 'Video consultations with specialist doctors for comprehensive medical advice',
-      onClick: handleDoctorConsultationClick
+      onClick: handleDoctorConsultationClick,
+      
     },
     {
       name: 'Live Tracking',
       description: 'Track your medical orders in real-time from dispatch to delivery',
-      onClick: handleLiveTrackingClick
+      onClick: handleLiveTrackingClick,
+      
     },
     {
       name: 'Health Packages',
       description: 'Comprehensive health checkup packages for preventive care',
-      onClick: handleHealthPackagesClick
+      onClick: handleHealthPackagesClick,
+      
     },
     {
-      name: 'Lab Tests at Home',
-      description: 'Get diagnostic tests done at home by certified professionals',
-      onClick: handleLabTestsClick
+      name: 'Pregnancy Care',
+      description: 'Specialized maternity care with free first consultation & expert gynecologists',
+      onClick: handlePregnancyCareClick,
+      
     },
     {
       name: 'Medical Records',
       description: 'Digital storage and management of all your medical documents',
-      onClick: handleMedicalRecordsClick
+      onClick: handleMedicalRecordsClick,
+      
     }
   ];
 
   const features = [
     {
       title: 'Lightning Fast Delivery',
-      description: 'Get medicines delivered in 30-40 minutes with our optimized delivery network'
+      description: 'Get medicines delivered in 30-40 minutes with our optimized delivery network',
+     
     },
     {
       title: '100% Safe & Genuine',
-      description: 'All medicines are sourced directly from licensed pharmacies with proper verification'
+      description: 'All medicines are sourced directly from licensed pharmacies with proper verification',
+      
     },
     {
       title: 'Best Prices',
-      description: 'Competitive pricing with regular discounts and offers on medicines and consultations'
+      description: 'Competitive pricing with regular discounts and offers on medicines and consultations',
+      
     },
     {
       title: 'Expert Doctors',
-      description: 'Consult with experienced doctors from top hospitals across various specialties'
+      description: 'Consult with experienced doctors from top hospitals across various specialties',
+     
     }
   ];
 
@@ -1037,6 +1049,73 @@ const Hero = ({ onSectionChange, onNavigateToAuth }) => {
       transition: 'all 0.3s ease',
       width: isMobile ? '100%' : 'auto',
     },
+
+    // Login Prompt Modal Styles
+    loginPromptModal: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+      padding: isMobile ? '0.5rem' : '1rem',
+      backdropFilter: 'blur(5px)',
+    },
+    loginPromptContent: {
+      backgroundColor: 'white',
+      padding: isMobile ? '1.5rem' : '2rem',
+      borderRadius: '15px',
+      maxWidth: isMobile ? '90%' : '400px',
+      width: '100%',
+      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+      textAlign: 'center',
+    },
+    loginPromptTitle: {
+      fontSize: isMobile ? '1.3rem' : '1.5rem',
+      color: '#7C2A62',
+      marginBottom: '1rem',
+      fontWeight: 'bold',
+    },
+    loginPromptText: {
+      fontSize: isMobile ? '1rem' : '1.1rem',
+      color: '#666',
+      marginBottom: '2rem',
+      lineHeight: '1.5',
+    },
+    loginPromptButtons: {
+      display: 'flex',
+      gap: '1rem',
+      justifyContent: 'center',
+      flexDirection: isMobile ? 'column' : 'row',
+    },
+    loginButton: {
+      padding: isMobile ? '0.8rem 2rem' : '1rem 2.5rem',
+      backgroundColor: '#7C2A62',
+      color: 'white',
+      border: 'none',
+      borderRadius: '25px',
+      cursor: 'pointer',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      fontWeight: 'bold',
+      transition: 'all 0.3s ease',
+      flex: isMobile ? 1 : 'none',
+    },
+    cancelLoginButton: {
+      padding: isMobile ? '0.8rem 2rem' : '1rem 2.5rem',
+      backgroundColor: '#666',
+      color: 'white',
+      border: 'none',
+      borderRadius: '25px',
+      cursor: 'pointer',
+      fontSize: isMobile ? '0.9rem' : '1rem',
+      fontWeight: 'bold',
+      transition: 'all 0.3s ease',
+      flex: isMobile ? 1 : 'none',
+    },
   };
 
   // Generate floating elements
@@ -1407,6 +1486,32 @@ const Hero = ({ onSectionChange, onNavigateToAuth }) => {
                 onClick={closeModal}
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Login Prompt Modal */}
+      {showLoginPrompt && (
+        <div style={styles.loginPromptModal} onClick={handleLoginCancel}>
+          <div style={styles.loginPromptContent} onClick={(e) => e.stopPropagation()}>
+            <h2 style={styles.loginPromptTitle}>Login Required</h2>
+            <p style={styles.loginPromptText}>
+              Please login to {loginPromptType === 'medicine' ? 'order medicines' : 'consult with a doctor'} and access all our healthcare features.
+            </p>
+            <div style={styles.loginPromptButtons}>
+              <button 
+                style={styles.cancelLoginButton}
+                onClick={handleLoginCancel}
+              >
+                Cancel
+              </button>
+              <button 
+                style={styles.loginButton}
+                onClick={handleLoginConfirm}
+              >
+                Go to Login
               </button>
             </div>
           </div>

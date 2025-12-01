@@ -380,7 +380,6 @@ const Services = ({ onNavigateToLogin }) => {
 
   const services = [
     {
-      
       title: 'Medicine Delivery',
       description: 'Get prescribed medicines delivered to your home within 2 hours',
       features: ['24/7 Delivery', 'Prescription Upload', 'Generic Alternatives', 'Real-time Tracking'],
@@ -405,7 +404,6 @@ const Services = ({ onNavigateToLogin }) => {
       }
     },
     {
-      
       title: 'Online Consultation',
       description: 'Video calls with certified doctors and specialists',
       features: ['Instant Booking', 'Multiple Specialties', 'E-Prescriptions', 'Follow-up Care'],
@@ -430,7 +428,6 @@ const Services = ({ onNavigateToLogin }) => {
       }
     },
     {
-      
       title: 'Emergency Care',
       description: 'Immediate medical assistance for urgent health issues',
       features: ['24/7 Availability', 'Ambulance Service', 'Emergency Kit', 'GPS Tracking'],
@@ -455,32 +452,54 @@ const Services = ({ onNavigateToLogin }) => {
       }
     },
     {
-      
-      title: 'Diagnostic Tests',
-      description: 'Home sample collection and lab tests',
-      features: ['Home Collection', 'Digital Reports', '100+ Tests', 'Expert Consultation'],
+      title: 'Baby Care Products',
+      description: 'Premium quality baby care essentials and healthcare products',
+      features: ['Organic Products', 'Diapers & Wipes', 'Baby Skincare', 'Feeding Essentials'],
       details: {
-        overview: "Comprehensive diagnostic testing with home sample collection. Get accurate results from certified labs with digital reports and doctor consultations.",
+        overview: "Complete range of certified baby care products including diapers, skincare, feeding essentials, and healthcare items. All products are dermatologically tested and safe for your baby's delicate skin.",
         benefits: [
-          "200+ test options",
-          "Certified phlebotomists",
-          "Digital reports in 24 hours",
-          "Free doctor consultation on abnormal results",
-          "Historical report tracking"
+          "100% organic and hypoallergenic",
+          "Dermatologist tested",
+          "Age-specific product ranges",
+          "Free delivery on bulk orders",
+          "Expert baby care guidance"
         ],
         process: [
-          "Book test online or via app",
-          "Sample collection at your home",
-          "Sample processing at certified labs",
-          "Digital report delivery",
-          "Free doctor consultation if needed"
+          "Browse age-appropriate products",
+          "Select from trusted brands",
+          "Choose delivery schedule",
+          "Get expert recommendations",
+          "Regular subscription options"
         ],
-        pricing: "Starting from $15. Health packages available at discounted rates.",
-        duration: "Sample collection: 2 hours, Reports: 6-24 hours"
+        pricing: "Products starting from $5. Subscription boxes from $35/month.",
+        duration: "Same-day delivery available"
       }
     },
     {
-      
+      title: 'PregnancyCare for Women',
+      description: 'Comprehensive prenatal and postnatal care services',
+      features: ['Prenatal Checkups', 'Nutrition Guidance', 'Yoga Sessions', 'Postnatal Care'],
+      details: {
+        overview: "Specialized healthcare services for expecting and new mothers. Our pregnancy care program includes medical checkups, nutritional guidance, fitness sessions, and emotional support throughout the pregnancy journey.",
+        benefits: [
+          "Regular prenatal checkups",
+          "Personalized nutrition plans",
+          "Pregnancy yoga and fitness",
+          "Mental wellness support",
+          "Postnatal recovery care"
+        ],
+        process: [
+          "Initial pregnancy assessment",
+          "Customized care plan creation",
+          "Regular monitoring and checkups",
+          "Delivery preparation and support",
+          "Postnatal recovery program"
+        ],
+        pricing: "Packages starting from $99/month. Insurance coverage available.",
+        duration: "Complete program: 9 months + 3 months postnatal"
+      }
+    },
+    {
       title: 'Health Checkups',
       description: 'Comprehensive health packages for all ages',
       features: ['Custom Packages', 'Doctor Consultation', 'Diet Plans', 'Annual Tracking'],
@@ -502,31 +521,6 @@ const Services = ({ onNavigateToLogin }) => {
         ],
         pricing: "Packages starting from $99. Family and corporate discounts available.",
         duration: "2-4 hours for complete checkup"
-      }
-    },
-    {
-     
-      title: 'Wellness Programs',
-      description: 'Preventive healthcare and lifestyle management',
-      features: ['Yoga Sessions', 'Diet Planning', 'Mental Wellness', 'Progress Tracking'],
-      details: {
-        overview: "Holistic wellness programs focusing on preventive care, mental health, and lifestyle management. Customized plans for overall well-being.",
-        benefits: [
-          "Personalized wellness plans",
-          "Certified wellness coaches",
-          "Mental health support",
-          "Nutritionist consultations",
-          "Progress tracking"
-        ],
-        process: [
-          "Initial health assessment",
-          "Personalized wellness plan creation",
-          "Regular coaching sessions",
-          "Progress monitoring",
-          "Plan adjustments based on results"
-        ],
-        pricing: "Starting from $49/month. 3-month and annual plans available.",
-        duration: "3-12 month programs with weekly sessions"
       }
     }
   ];

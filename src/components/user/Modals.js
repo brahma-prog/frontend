@@ -272,7 +272,7 @@ const Modals = ({
     const currentChat = useMemo(() => {
       if (!activeDoctorId) return [];
       return doctorChats[activeDoctorId] || [];
-    }, [activeDoctorId, doctorChats]);
+    }, [activeDoctorId]);
 
     useEffect(() => {
       if (chatEndRef.current) {

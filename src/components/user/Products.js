@@ -11,6 +11,8 @@ const Products = ({
   setActiveView 
 }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [showPrescriptionModal, setShowPrescriptionModal] = useState(false);
+  const [selectedPrescriptionProduct, setSelectedPrescriptionProduct] = useState(null);
 
   // Color constants
   const colors = {
@@ -23,6 +25,101 @@ const Products = ({
     success: '#28a745',
     warning: '#ffc107',
     danger: '#dc3545'
+  };
+
+  // Prescription Modal Styles
+  const modalStyles = {
+    overlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+      padding: '20px'
+    },
+    modal: {
+      backgroundColor: colors.white,
+      borderRadius: '15px',
+      padding: '30px',
+      maxWidth: '500px',
+      width: '100%',
+      boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+      textAlign: 'center'
+    },
+    modalTitle: {
+      color: colors.primary,
+      fontSize: '1.5rem',
+      fontWeight: 'bold',
+      marginBottom: '15px'
+    },
+    modalText: {
+      color: colors.darkGray,
+      fontSize: '1rem',
+      lineHeight: '1.5',
+      marginBottom: '20px'
+    },
+    productInfo: {
+      backgroundColor: colors.accent,
+      padding: '15px',
+      borderRadius: '10px',
+      marginBottom: '20px',
+      textAlign: 'left'
+    },
+    productName: {
+      color: colors.primary,
+      fontSize: '1.1rem',
+      fontWeight: 'bold',
+      marginBottom: '5px'
+    },
+    productDetails: {
+      color: colors.gray,
+      fontSize: '0.9rem',
+      margin: '2px 0'
+    },
+    buttonGroup: {
+      display: 'flex',
+      gap: '15px',
+      justifyContent: 'center',
+      flexWrap: 'wrap'
+    },
+    primaryButton: {
+      padding: '12px 24px',
+      backgroundColor: colors.primary,
+      color: colors.white,
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontSize: '0.9rem',
+      fontWeight: '600',
+      transition: 'all 0.3s ease',
+      minWidth: '140px'
+    },
+    secondaryButton: {
+      padding: '12px 24px',
+      backgroundColor: 'transparent',
+      color: colors.primary,
+      border: `2px solid ${colors.primary}`,
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontSize: '0.9rem',
+      fontWeight: '600',
+      transition: 'all 0.3s ease',
+      minWidth: '140px'
+    },
+    prescriptionNote: {
+      backgroundColor: colors.warning,
+      color: colors.darkGray,
+      padding: '10px 15px',
+      borderRadius: '8px',
+      fontSize: '0.85rem',
+      fontWeight: '500',
+      marginBottom: '20px'
+    }
   };
 
   // Styles object with the new color scheme
@@ -143,7 +240,7 @@ const Products = ({
       border: `1px solid ${colors.accent}`,
       display: 'flex',
       flexDirection: 'column',
-      minHeight: '200px', // Fixed minimum height
+      minHeight: '200px',
       position: 'relative'
     },
     productImage: {
@@ -196,8 +293,6 @@ const Products = ({
       fontSize: '0.75rem',
       fontWeight: 'bold'
     },
-
-    // FIXED: Bottom section that stays at bottom
     bottomSection: {
       marginTop: 'auto',
       paddingTop: '15px',
@@ -222,6 +317,19 @@ const Products = ({
       padding: '12px 24px',
       backgroundColor: colors.primary,
       color: colors.white,
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontSize: '0.9rem',
+      fontWeight: '600',
+      transition: 'all 0.3s ease',
+      whiteSpace: 'nowrap',
+      minWidth: '120px'
+    },
+    prescriptionButton: {
+      padding: '12px 24px',
+      backgroundColor: colors.warning,
+      color: colors.darkGray,
       border: 'none',
       borderRadius: '8px',
       cursor: 'pointer',
@@ -346,6 +454,74 @@ const Products = ({
       reviews: 256
     },
     {
+      id: 5,
+      name: 'Amoxicillin 500mg',
+      brand: 'Amoxil',
+      price: 120,
+      vendor: 'City Pharmacy',
+      category: 'Antibiotics',
+      description: 'Broad-spectrum antibiotic for bacterial infections',
+      detailedDescription: 'Amoxicillin is a penicillin-type antibiotic that fights bacteria in the body. It is used to treat many different types of infections caused by bacteria, such as ear infections, bladder infections, pneumonia, and more.',
+      uses: [
+        'Bacterial infections',
+        'Respiratory tract infections',
+        'Urinary tract infections',
+        'Skin infections'
+      ],
+      dosage: 'As prescribed by doctor, typically one capsule three times daily',
+      sideEffects: [
+        'Nausea',
+        'Diarrhea',
+        'Skin rash',
+        'Yeast infection'
+      ],
+      precautions: [
+        'PRESCRIPTION REQUIRED',
+        'Complete full course',
+        'Inform about penicillin allergy',
+        'Take with plenty of water'
+      ],
+      image: '',
+      prescriptionRequired: true,
+      stock: 30,
+      rating: 4.3,
+      reviews: 95
+    },
+    {
+      id: 8,
+      name: 'Omeprazole 20mg',
+      brand: 'Prilosec',
+      price: 45,
+      vendor: 'City Pharmacy',
+      category: 'Acid Reducer',
+      description: 'Proton pump inhibitor for acid reflux',
+      detailedDescription: 'Omeprazole is a proton pump inhibitor that decreases the amount of acid produced in the stomach. It is used to treat symptoms of GERD and other conditions caused by excess stomach acid.',
+      uses: [
+        'GERD (gastroesophageal reflux disease)',
+        'Stomach ulcers',
+        'Zollinger-Ellison syndrome',
+        'Erosive esophagitis'
+      ],
+      dosage: 'One capsule daily before eating, usually for 4-8 weeks',
+      sideEffects: [
+        'Headache',
+        'Diarrhea',
+        'Stomach pain',
+        'Nausea'
+      ],
+      precautions: [
+        'Take before meals',
+        'Do not crush or chew',
+        'Long-term use requires monitoring',
+        'May affect vitamin B12 absorption'
+      ],
+      image: '',
+      prescriptionRequired: true,
+      stock: 40,
+      rating: 4.2,
+      reviews: 178
+    },
+    {
       id: 3,
       name: 'Ibuprofen 400mg',
       brand: 'Brufen',
@@ -409,40 +585,6 @@ const Products = ({
       stock: 200,
       rating: 4.8,
       reviews: 342
-    },
-    {
-      id: 5,
-      name: 'Amoxicillin 500mg',
-      brand: 'Amoxil',
-      price: 120,
-      vendor: 'City Pharmacy',
-      category: 'Antibiotics',
-      description: 'Broad-spectrum antibiotic for bacterial infections',
-      detailedDescription: 'Amoxicillin is a penicillin-type antibiotic that fights bacteria in the body. It is used to treat many different types of infections caused by bacteria, such as ear infections, bladder infections, pneumonia, and more.',
-      uses: [
-        'Bacterial infections',
-        'Respiratory tract infections',
-        'Urinary tract infections',
-        'Skin infections'
-      ],
-      dosage: 'As prescribed by doctor, typically one capsule three times daily',
-      sideEffects: [
-        'Nausea',
-        'Diarrhea',
-        'Skin rash',
-        'Yeast infection'
-      ],
-      precautions: [
-        'PRESCRIPTION REQUIRED',
-        'Complete full course',
-        'Inform about penicillin allergy',
-        'Take with plenty of water'
-      ],
-      image: '',
-      prescriptionRequired: true,
-      stock: 30,
-      rating: 4.3,
-      reviews: 95
     },
     {
       id: 6,
@@ -509,40 +651,6 @@ const Products = ({
       stock: 80,
       rating: 4.5,
       reviews: 214
-    },
-    {
-      id: 8,
-      name: 'Omeprazole 20mg',
-      brand: 'Prilosec',
-      price: 45,
-      vendor: 'City Pharmacy',
-      category: 'Acid Reducer',
-      description: 'Proton pump inhibitor for acid reflux',
-      detailedDescription: 'Omeprazole is a proton pump inhibitor that decreases the amount of acid produced in the stomach. It is used to treat symptoms of GERD and other conditions caused by excess stomach acid.',
-      uses: [
-        'GERD (gastroesophageal reflux disease)',
-        'Stomach ulcers',
-        'Zollinger-Ellison syndrome',
-        'Erosive esophagitis'
-      ],
-      dosage: 'One capsule daily before eating, usually for 4-8 weeks',
-      sideEffects: [
-        'Headache',
-        'Diarrhea',
-        'Stomach pain',
-        'Nausea'
-      ],
-      precautions: [
-        'Take before meals',
-        'Do not crush or chew',
-        'Long-term use requires monitoring',
-        'May affect vitamin B12 absorption'
-      ],
-      image: '',
-      prescriptionRequired: true,
-      stock: 40,
-      rating: 4.2,
-      reviews: 178
     },
     {
       id: 9,
@@ -626,6 +734,20 @@ const Products = ({
     return matchesSearch && matchesCategory;
   });
 
+  // Handle prescription required products
+  const handlePrescriptionProduct = (product) => {
+    setSelectedPrescriptionProduct(product);
+    setShowPrescriptionModal(true);
+  };
+
+  // Handle proceed to medicine delivery - navigate directly to medicine view page
+  const handleProceedToMedicineDelivery = () => {
+    setShowPrescriptionModal(false);
+    // Navigate directly to medicine view page where users can upload prescription
+    setActiveView('medicine');
+  };
+
+  // Handle add to cart for non-prescription products
   const addToCartWithNotification = (product) => {
     addToCart(product);
   };
@@ -726,10 +848,36 @@ const Products = ({
                     )}
                   </div>
 
-                  {/* FIXED: Bottom section that stays at bottom */}
+                  {/* Bottom section that stays at bottom */}
                   <div style={styles.bottomSection}>
-                    {/* Add to Cart Button - Only show if product is not in cart */}
-                    {quantityInCart === 0 ? (
+                    {/* For prescription required products - show different button */}
+                    {product.prescriptionRequired ? (
+                      <div style={styles.productPriceSection}>
+                        <span style={styles.productPrice}>₹{product.price}</span>
+                        <button
+                          style={product.stock > 0 ? styles.prescriptionButton : styles.disabledButton}
+                          onClick={() => product.stock > 0 && handlePrescriptionProduct(product)}
+                          disabled={product.stock === 0}
+                          onMouseEnter={(e) => {
+                            if (product.stock > 0) {
+                              e.target.style.backgroundColor = colors.primary;
+                              e.target.style.color = colors.white;
+                              e.target.style.transform = 'translateY(-2px)';
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (product.stock > 0) {
+                              e.target.style.backgroundColor = colors.warning;
+                              e.target.style.color = colors.darkGray;
+                              e.target.style.transform = 'translateY(0)';
+                            }
+                          }}
+                        >
+                          {product.stock > 0 ? 'Upload Prescription' : 'Out of Stock'}
+                        </button>
+                      </div>
+                    ) : quantityInCart === 0 ? (
+                      /* For non-prescription products - normal add to cart */
                       <div style={styles.productPriceSection}>
                         <span style={styles.productPrice}>₹{product.price}</span>
                         <button
@@ -745,7 +893,7 @@ const Products = ({
                           }}
                           onMouseLeave={(e) => {
                             if (product.stock > 0) {
-                              e.target.style.backgroundColor = colors.primary; // FIXED: Changed cards.primary to colors.primary
+                              e.target.style.backgroundColor = colors.primary;
                               e.target.style.color = colors.white;
                               e.target.style.transform = 'translateY(0)';
                             }
@@ -755,7 +903,7 @@ const Products = ({
                         </button>
                       </div>
                     ) : (
-                      /* Quantity Controls - Only show if product is in cart */
+                      /* Quantity Controls for non-prescription products in cart */
                       <div style={styles.quantityControls}>
                         <button
                           style={styles.quantityButton}
@@ -800,6 +948,72 @@ const Products = ({
           })}
         </div>
       </section>
+
+      {/* Prescription Required Modal */}
+      {showPrescriptionModal && selectedPrescriptionProduct && (
+        <div style={modalStyles.overlay}>
+          <div style={modalStyles.modal}>
+            <h3 style={modalStyles.modalTitle}>📋 Prescription Required</h3>
+            
+            <div style={modalStyles.prescriptionNote}>
+              ⚠️ This medicine requires a valid doctor's prescription for purchase
+            </div>
+
+            <div style={modalStyles.productInfo}>
+              <div style={modalStyles.productName}>
+                {selectedPrescriptionProduct.name}
+              </div>
+              <div style={modalStyles.productDetails}>
+                <strong>Brand:</strong> {selectedPrescriptionProduct.brand}
+              </div>
+              <div style={modalStyles.productDetails}>
+                <strong>Price:</strong> ₹{selectedPrescriptionProduct.price}
+              </div>
+              <div style={modalStyles.productDetails}>
+                <strong>Category:</strong> {selectedPrescriptionProduct.category}
+              </div>
+            </div>
+
+            <p style={modalStyles.modalText}>
+              To purchase <strong>{selectedPrescriptionProduct.name}</strong>, you need to upload a valid prescription from a registered medical practitioner. 
+              This ensures your safety and compliance with medical regulations.
+            </p>
+
+            <p style={{...modalStyles.modalText, fontSize: '0.9rem', fontStyle: 'italic'}}>
+              You'll be redirected to the Medicine Delivery page where you can upload your prescription and order the medicine.
+            </p>
+
+            <div style={modalStyles.buttonGroup}>
+              <button
+                style={modalStyles.primaryButton}
+                onClick={handleProceedToMedicineDelivery}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = colors.accent;
+                  e.target.style.color = colors.primary;
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = colors.primary;
+                  e.target.style.color = colors.white;
+                }}
+              >
+                📤 Go to Medicine Delivery
+              </button>
+              <button
+                style={modalStyles.secondaryButton}
+                onClick={() => setShowPrescriptionModal(false)}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = colors.lightGray;
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent';
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }; 

@@ -756,7 +756,6 @@ const Header = ({
   // Navigation items configuration for better maintainability
   const navItems = [
     { key: 'dashboard', label: 'Home' },
-    { key: 'products', label: 'Products' },
     { key: 'appointments', label: 'Appointments' },
     { key: 'orders', label: 'Orders' }
   ];

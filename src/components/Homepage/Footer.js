@@ -58,16 +58,46 @@ const SOCIAL_LINKS = [
 
 const APP_LINKS = [
   {
-    icon: '📱',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+      </svg>
+    ),
     smallText: 'Download on the',
     largeText: 'App Store',
     url: 'https://apps.apple.com/app/quickmed-healthcare/id123456789'
   },
   {
-    icon: '🎮',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 20.5V3.5C3 2.91 3.34 2.5 3.78 2.5H15.97C16.46 2.5 16.75 2.81 16.75 3.33V20.67C16.75 21.19 16.46 21.5 15.97 21.5H3.78C3.34 21.5 3 21.09 3 20.5ZM5 19.5H15V4.5H5V19.5ZM7.5 17.5C7.09 17.5 6.75 17.16 6.75 16.75C6.75 16.34 7.09 16 7.5 16C7.91 16 8.25 16.34 8.25 16.75C8.25 17.16 7.91 17.5 7.5 17.5ZM7.5 8C6.12 8 5 6.88 5 5.5C5 4.12 6.12 3 7.5 3C8.88 3 10 4.12 10 5.5C10 6.88 8.88 8 7.5 8Z"/>
+      </svg>
+    ),
     smallText: 'GET IT ON',
     largeText: 'Google Play',
     url: 'https://play.google.com/store/apps/details?id=com.quickmed.healthcare'
+  }
+];
+
+// Contact Info with SVG icons
+const CONTACT_INFO = [
+  {
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+      </svg>
+    ),
+    text: 'support@quickmed.com',
+    url: 'mailto:support@quickmed.com'
+  },
+  {
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM12 3v10l3-3h6V3h-9z"/>
+      </svg>
+    ),
+    text: '+91 9392416962',
+    url: 'tel:+919392416962'
   }
 ];
 
@@ -544,6 +574,30 @@ const Footer = ({ onSectionChange }) => {
     );
   };
 
+  // Contact Item Component
+  const ContactItem = ({ contact, ...props }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+      <div style={styles.contactItem}>
+        <span style={styles.contactIcon}>{contact.icon}</span>
+        <a 
+          href={contact.url}
+          style={{
+            ...styles.link,
+            textDecoration: 'none',
+            color: isHovered ? '#FFFFFF' : '#F7D9EB',
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          {...props}
+        >
+          {contact.text}
+        </a>
+      </div>
+    );
+  };
+
   // Legal Modal Component
   const LegalModal = ({ legalKey, onClose }) => {
     const legalData = LEGAL_CONTENT[legalKey];
@@ -666,34 +720,9 @@ const Footer = ({ onSectionChange }) => {
                 <p style={styles.description}>
                   Our customer support team is available 7 days a week from 8:00 AM – 10:00 PM.
                 </p>
-                <div style={styles.contactItem}>
-                  <span style={styles.contactIcon}>📧</span>
-                  <a 
-                    href="mailto:support@quickmed.com" 
-                    style={{
-                      ...styles.link,
-                      textDecoration: 'none',
-                    }}
-                    onMouseEnter={(e) => e.target.style.color = '#FFFFFF'}
-                    onMouseLeave={(e) => e.target.style.color = '#F7D9EB'}
-                  >
-                    support@quickmed.com
-                  </a>
-                </div>
-                <div style={styles.contactItem}>
-                  <span style={styles.contactIcon}>📞</span>
-                  <a 
-                    href="tel:+918500705343" 
-                    style={{
-                      ...styles.link,
-                      textDecoration: 'none',
-                    }}
-                    onMouseEnter={(e) => e.target.style.color = '#FFFFFF'}
-                    onMouseLeave={(e) => e.target.style.color = '#F7D9EB'}
-                  >
-                    +91 9392416962
-                  </a>
-                </div>
+                {CONTACT_INFO.map((contact, index) => (
+                  <ContactItem key={index} contact={contact} />
+                ))}
               </div>
             </div>
           </div>
