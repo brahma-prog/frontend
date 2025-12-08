@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const DoctorSidebar = ({
@@ -268,7 +267,6 @@ const styles = {
   navButtonActive: {
     backgroundColor: 'rgba(0,0,0,0.08)',
     opacity: 1,
-    borderRight: '3px solid #7C2A62',
     fontWeight: '600'
   },
   navIcon: {

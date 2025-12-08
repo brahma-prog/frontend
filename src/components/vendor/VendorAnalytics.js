@@ -352,13 +352,13 @@ const VendorAnalytics = ({
           </div>
         </div>
 
-        {/* <div style={kpiCardStyle}>
+        <div style={kpiCardStyle}>
           <div style={kpiIconStyle}>📦</div>
           <div style={kpiContentStyle}>
             <h3 style={kpiNumberStyle}>{analyticsData.kpis.splitOrders}</h3>
             <p style={kpiLabelStyle}>Split Orders</p>
           </div>
-        </div> */}
+        </div>
 
         <div style={kpiCardStyle}>
           <div style={kpiIconStyle}>💰</div>

@@ -56,7 +56,7 @@ const MedicineView = ({
     <div style={{
       padding: '2rem',
       maxWidth: '1200px',
-      margin: '140px auto 0',
+      margin: '130px auto 0',
       minHeight: 'calc(100vh - 140px)',
     }}>
       {/* Header with Back Button */}

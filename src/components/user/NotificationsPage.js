@@ -88,13 +88,13 @@ const NotificationsPage = ({
 
   const getNotificationIcon = (type) => {
     const icons = {
-      order: '📦',
-      system: '⚙️',
-      customer: '👤',
-      payment: '💳',
-      security: '🔒',
-      promotion: '🎁',
-      appointment: '👨‍⚕️',
+      order: '',
+      system: '',
+      customer: '',
+      payment: '',
+      security: '',
+      promotion: '',
+      appointment: '',
       default: '🔔'
     };
     return icons[type] || icons.default;

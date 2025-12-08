@@ -351,14 +351,7 @@ const Navbar = ({ activeSection, onSectionChange, onNavigateToAuth, onNavigateTo
             >
               Login
             </button>
-            <button 
-              style={styles.adminButton}
-              onClick={onNavigateToAdmin}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              🔧 Admin
-            </button>
+           
           </div>
         </nav>
 
@@ -387,15 +380,7 @@ const Navbar = ({ activeSection, onSectionChange, onNavigateToAuth, onNavigateTo
               >
                 Login
               </button>
-              <button 
-                style={styles.mobileAdminButton}
-                onClick={() => {
-                  onNavigateToAdmin();
-                  handleMobileMenuToggle();
-                }}
-              >
-                🔧 Admin
-              </button>
+             
             </div>
           </nav>
         )}

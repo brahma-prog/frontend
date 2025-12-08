@@ -100,7 +100,7 @@ const AIChatbotWidget = ({
                 justifyContent: 'center',
                 fontSize: '16px'
               }}>
-                🤖
+                
               </div>
               <div>
                 <div style={{ fontWeight: 'bold', fontSize: '14px' }}>QuickMed Assistant</div>

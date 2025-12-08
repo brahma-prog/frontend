@@ -148,21 +148,24 @@ const Dashboard = ({
     aiChatButton: {
       backgroundColor: '#7C2A62',
       color: 'white',
-      border: 'none',
-      borderRadius: '8px',
-      padding: '8px 16px',
-      cursor: 'pointer',
-      fontSize: '14px',
-      fontWeight: '500',
-      transition: 'all 0.3s ease',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '6px',
-      position: 'fixed',
-      bottom: '20px',
-      right: '20px',
-      zIndex: 1000,
-      boxShadow: '0 4px 12px rgba(124, 42, 98, 0.3)'
+border: 'none',  // Changed from 'circle'
+borderRadius: '50%',  // Changed to 50% for perfect circle
+padding: '16px',  // Changed to equal padding all sides
+cursor: 'pointer',
+fontSize: '14px',
+fontWeight: '500',
+transition: 'all 0.3s ease',
+display: 'flex',
+alignItems: 'center',
+justifyContent: 'center',  // Added to center content
+width: '56px',  // Added fixed width
+height: '56px',  // Added fixed height (same as width)
+gap: '6px',
+position: 'fixed',
+bottom: '20px',
+right: '20px',
+zIndex: 1000,
+boxShadow: '0 4px 12px rgba(124, 42, 98, 0.3)'
     },
     notificationButton: {
       backgroundColor: isOnline ? 'white' : '#1a0f1a',

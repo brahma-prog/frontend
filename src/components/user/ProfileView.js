@@ -5,12 +5,16 @@ const ProfileView = ({ setActiveView }) => {
   const { profile, updateProfile } = useProfile();
 
   const [localProfile, setLocalProfile] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     email: "",
     phone: "",
-    address: "",
+    streetAddress: "",
+    apartment: "",
     city: "",
+    state: "",
     pincode: "",
+    country: "India",
     dateOfBirth: "",
     age: "",
     gender: "",
@@ -23,6 +27,13 @@ const ProfileView = ({ setActiveView }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [saveStatus, setSaveStatus] = useState('');
+  
+  // Modal states
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState(''); // 'success', 'cancel', 'warning'
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalAction, setModalAction] = useState(null);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -34,11 +45,98 @@ const ProfileView = ({ setActiveView }) => {
     setActiveView("dashboard");
   };
 
+  // Modal Styles
+  const modalStyles = {
+    overlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1000,
+      animation: 'fadeIn 0.3s ease-out'
+    },
+    modal: {
+      backgroundColor: 'white',
+      padding: '2rem',
+      borderRadius: '15px',
+      maxWidth: '400px',
+      width: '90%',
+      textAlign: 'center',
+      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
+      animation: 'slideUp 0.3s ease-out'
+    },
+    modalIcon: {
+      fontSize: '3rem',
+      marginBottom: '1rem'
+    },
+    modalTitle: {
+      color: '#7C2A62',
+      fontSize: '1.5rem',
+      margin: '0 0 0.5rem 0',
+      fontWeight: '700'
+    },
+    modalMessage: {
+      color: '#666',
+      fontSize: '1rem',
+      marginBottom: '1.5rem',
+      lineHeight: '1.5'
+    },
+    modalButtons: {
+      display: 'flex',
+      gap: '1rem',
+      justifyContent: 'center',
+      marginTop: '1rem'
+    },
+    primaryButton: {
+      padding: '0.75rem 2rem',
+      backgroundColor: '#7C2A62',
+      color: 'white',
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontWeight: '600',
+      fontSize: '0.9rem',
+      transition: 'all 0.3s ease',
+      boxShadow: '0 2px 8px rgba(124, 42, 98, 0.3)',
+      minWidth: '120px'
+    },
+    secondaryButton: {
+      padding: '0.75rem 2rem',
+      backgroundColor: 'transparent',
+      color: '#7C2A62',
+      border: '1px solid #7C2A62',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontWeight: '600',
+      fontSize: '0.9rem',
+      transition: 'all 0.3s ease',
+      minWidth: '120px'
+    },
+    warningButton: {
+      padding: '0.75rem 2rem',
+      backgroundColor: '#FF6B6B',
+      color: 'white',
+      border: 'none',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontWeight: '600',
+      fontSize: '0.9rem',
+      transition: 'all 0.3s ease',
+      boxShadow: '0 2px 8px rgba(255, 107, 107, 0.3)',
+      minWidth: '120px'
+    }
+  };
+
   // Compact Profile-specific styles
   const styles = {
     // Profile Container with proper spacing
     profileContainer: {
-      marginTop: '120px',
+      marginTop: '100px',
       padding: '2rem 1rem 1rem 1rem',
       maxWidth: '800px',
       marginLeft: 'auto',
@@ -75,15 +173,15 @@ const ProfileView = ({ setActiveView }) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      gap: '2rem', // Increased gap between back button and header content
+      gap: '2rem',
       marginBottom: '2rem',
       textAlign: 'center',
       position: 'relative',
     },
     backButton: {
-      padding: '0.75rem 0.5rem', // Increased padding for longer button
+      padding: '0.75rem 0.5rem',
       backgroundColor: 'transparent',
-       marginTop: '1.5rem',
+      marginTop: '2rem',
       color: '#7C2A62',
       border: '2px solid #7C2A62',
       borderRadius: '8px',
@@ -94,8 +192,8 @@ const ProfileView = ({ setActiveView }) => {
       alignSelf: 'flex-start',
       position: 'relative',
       zIndex: 2,
-      marginBottom: '0.5rem', // Added margin for better spacing
-      minWidth: '180px', // Minimum width for consistent button size
+      marginBottom: '0.5rem',
+      minWidth: '180px',
     },
     headerContent: {
       display: 'flex',
@@ -212,7 +310,7 @@ const ProfileView = ({ setActiveView }) => {
       boxShadow: '0 2px 8px rgba(255, 107, 107, 0.3)',
     },
     editProfileButton: {
-      padding: '0.75rem 2rem', // Increased padding for longer button
+      padding: '0.75rem 2rem',
       backgroundColor: '#7C2A62',
       color: 'white',
       border: 'none',
@@ -225,7 +323,7 @@ const ProfileView = ({ setActiveView }) => {
       alignItems: 'center',
       gap: '0.5rem',
       boxShadow: '0 2px 8px rgba(124, 42, 98, 0.3)',
-      minWidth: '160px', // Minimum width for consistent button size
+      minWidth: '160px',
     },
 
     // Profile Form - Compact
@@ -299,22 +397,22 @@ const ProfileView = ({ setActiveView }) => {
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
-      width: '100%', // Ensure full width
+      width: '100%',
     },
     phonePrefix: {
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
-      padding: '0.75rem 1rem', // Increased horizontal padding
+      padding: '0.75rem 1rem',
       backgroundColor: '#f8f5ff',
       borderRadius: '8px',
       fontWeight: '600',
       color: '#7C2A62',
       fontSize: '0.9rem',
       border: '1px solid #F7D9EB',
-      minWidth: '100px', // Increased minimum width
+      minWidth: '100px',
       justifyContent: 'center',
-      flexShrink: 0, // Prevent shrinking
+      flexShrink: 0,
     },
 
     // Action Buttons - Compact
@@ -327,7 +425,7 @@ const ProfileView = ({ setActiveView }) => {
       borderTop: '2px solid #F7D9EB',
     },
     updateButton: {
-      padding: '0.75rem 2rem', // Increased padding for longer button
+      padding: '0.75rem 2rem',
       backgroundColor: '#7C2A62',
       color: 'white',
       border: 'none',
@@ -337,7 +435,7 @@ const ProfileView = ({ setActiveView }) => {
       fontSize: '0.9rem',
       transition: 'all 0.3s ease',
       boxShadow: '0 2px 8px rgba(124, 42, 98, 0.3)',
-      minWidth: '160px', // Minimum width for consistent button size
+      minWidth: '160px',
     },
     updateButtonDisabled: {
       backgroundColor: '#cccccc',
@@ -345,7 +443,7 @@ const ProfileView = ({ setActiveView }) => {
       boxShadow: 'none',
     },
     cancelButton: {
-      padding: '0.75rem 2rem', // Increased padding for longer button
+      padding: '0.75rem 2rem',
       backgroundColor: 'transparent',
       color: '#7C2A62',
       border: '1px solid #7C2A62',
@@ -354,7 +452,7 @@ const ProfileView = ({ setActiveView }) => {
       fontWeight: '600',
       fontSize: '0.9rem',
       transition: 'all 0.3s ease',
-      minWidth: '120px', // Minimum width for consistent button size
+      minWidth: '120px',
     },
 
     // Save Status - Compact
@@ -383,7 +481,7 @@ const ProfileView = ({ setActiveView }) => {
     },
   };
 
-  // Add CSS animation for success message
+  // Add CSS animation for success message and modal
   useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
@@ -391,6 +489,24 @@ const ProfileView = ({ setActiveView }) => {
         from {
           opacity: 0;
           transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
         to {
           opacity: 1;
@@ -405,15 +521,74 @@ const ProfileView = ({ setActiveView }) => {
     };
   }, []);
 
+  // Modal Functions
+  const showModalPopup = (type, title, message, action = null) => {
+    setModalType(type);
+    setModalTitle(title);
+    setModalMessage(message);
+    setModalAction(() => action);
+    setShowModal(true);
+  };
+
+  const hideModal = () => {
+    setShowModal(false);
+    setModalType('');
+    setModalTitle('');
+    setModalMessage('');
+    setModalAction(null);
+  };
+
+  // Get modal icon based on type
+  const getModalIcon = () => {
+    switch (modalType) {
+      case 'success':
+        return '✅';
+      case 'warning':
+        return '⚠️';
+      case 'error':
+        return '❌';
+      case 'info':
+        return 'ℹ️';
+      default:
+        return 'ℹ️';
+    }
+  };
+
+  // Get modal button style based on type
+  const getModalButtonStyle = (isPrimary = true) => {
+    switch (modalType) {
+      case 'warning':
+        return isPrimary ? modalStyles.warningButton : modalStyles.secondaryButton;
+      default:
+        return isPrimary ? modalStyles.primaryButton : modalStyles.secondaryButton;
+    }
+  };
+
   // Real-time profile sync from context
   useEffect(() => {
+    // Parse fullName into firstName and lastName
+    const fullName = profile.fullName || "";
+    const nameParts = fullName.split(' ');
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(' ') || "";
+    
+    // Parse address into components
+    const address = profile.address || "";
+    const addressParts = address.split(',');
+    const streetAddress = addressParts[0] || "";
+    const apartment = addressParts.length > 1 ? addressParts[1].trim() : "";
+    
     setLocalProfile({
-      fullName: profile.fullName || "",
+      firstName,
+      lastName,
       email: profile.email || "",
       phone: profile.phone || "",
-      address: profile.address || "",
+      streetAddress,
+      apartment,
       city: profile.city || "",
+      state: profile.state || "",
       pincode: profile.pincode || "",
+      country: profile.country || "India",
       dateOfBirth: profile.dateOfBirth || "",
       age: profile.age || "",
       gender: profile.gender || "",
@@ -453,13 +628,18 @@ const ProfileView = ({ setActiveView }) => {
   const validateLocalForm = useCallback(() => {
     const errors = {};
 
-    // Name validation
-    if (!localProfile.fullName.trim()) {
-      errors.fullName = "Full name is required";
-    } else if (localProfile.fullName.trim().length < 2) {
-      errors.fullName = "Name should be at least 2 characters long";
-    } else if (!/^[A-Za-z\s]{2,}$/.test(localProfile.fullName)) {
-      errors.fullName = "Name should contain only letters and spaces";
+    // First Name validation
+    if (!localProfile.firstName.trim()) {
+      errors.firstName = "First name is required";
+    } else if (localProfile.firstName.trim().length < 2) {
+      errors.firstName = "First name should be at least 2 characters long";
+    } else if (!/^[A-Za-z]{2,}$/.test(localProfile.firstName)) {
+      errors.firstName = "First name should contain only letters";
+    }
+
+    // Last Name validation (optional)
+    if (localProfile.lastName && !/^[A-Za-z\s]{0,}$/.test(localProfile.lastName)) {
+      errors.lastName = "Last name should contain only letters";
     }
 
     // Email validation
@@ -476,11 +656,11 @@ const ProfileView = ({ setActiveView }) => {
       errors.phone = "Enter a valid 10-digit number starting with 6-9";
     }
 
-    // Address validation
-    if (!localProfile.address.trim()) {
-      errors.address = "Address is required";
-    } else if (localProfile.address.trim().length < 10) {
-      errors.address = "Address should be at least 10 characters long";
+    // Street Address validation
+    if (!localProfile.streetAddress.trim()) {
+      errors.streetAddress = "Street address is required";
+    } else if (localProfile.streetAddress.trim().length < 5) {
+      errors.streetAddress = "Street address should be at least 5 characters long";
     }
 
     // City validation
@@ -488,6 +668,13 @@ const ProfileView = ({ setActiveView }) => {
       errors.city = "City is required";
     } else if (!/^[A-Za-z\s]{2,}$/.test(localProfile.city)) {
       errors.city = "City should contain only letters and be at least 2 characters";
+    }
+
+    // State validation
+    if (!localProfile.state.trim()) {
+      errors.state = "State is required";
+    } else if (!/^[A-Za-z\s]{2,}$/.test(localProfile.state)) {
+      errors.state = "State should contain only letters and be at least 2 characters";
     }
 
     // Pincode validation
@@ -538,10 +725,12 @@ const ProfileView = ({ setActiveView }) => {
 
     // Real-time input formatting and validation
     switch (name) {
-      case "fullName":
+      case "firstName":
+      case "lastName":
         updatedValue = value.replace(/[^A-Za-z\s]/g, "");
         break;
       case "city":
+      case "state":
         updatedValue = value.replace(/[^A-Za-z\s]/g, "");
         break;
       case "pincode":
@@ -581,17 +770,17 @@ const ProfileView = ({ setActiveView }) => {
 
     // Real-time file validation
     if (!file.type.startsWith('image/')) {
-      setSaveStatus('❌ Please select a valid image file');
+      showModalPopup('error', 'Invalid File', 'Please select a valid image file (JPG, PNG, GIF, etc.)');
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setSaveStatus('❌ Image size should be less than 5MB');
+      showModalPopup('error', 'File Too Large', 'Image size should be less than 5MB');
       return;
     }
 
     try {
-      setSaveStatus('🔄 Uploading photo...');
+      setSaveStatus(' Uploading photo...');
       
       const imgURL = URL.createObjectURL(file);
       setLocalProfile(prev => ({ ...prev, profilePhoto: imgURL }));
@@ -601,11 +790,11 @@ const ProfileView = ({ setActiveView }) => {
         profilePhoto: imgURL
       });
       
-      setSaveStatus('✅ Photo updated successfully!');
-      setTimeout(() => setSaveStatus(''), 3000);
+      showModalPopup('success', 'Photo Updated', 'Your profile photo has been updated successfully!');
+      setSaveStatus('');
     } catch (error) {
       console.error('Error uploading photo:', error);
-      setSaveStatus('❌ Error uploading photo. Please try again.');
+      showModalPopup('error', 'Upload Failed', 'Error uploading photo. Please try again.');
     }
   };
 
@@ -616,17 +805,71 @@ const ProfileView = ({ setActiveView }) => {
       setLocalProfile(prev => ({ ...prev, profilePhoto: "" }));
       await updateProfile({ ...profile, profilePhoto: "" });
       
-      setSaveStatus('✅ Photo removed successfully!');
-      setTimeout(() => setSaveStatus(''), 3000);
+      showModalPopup('success', 'Photo Removed', 'Your profile photo has been removed successfully!');
+      setSaveStatus('');
     } catch (error) {
       console.error('Error removing photo:', error);
-      setSaveStatus('❌ Error removing photo. Please try again.');
+      showModalPopup('error', 'Remove Failed', 'Error removing photo. Please try again.');
     }
   };
 
   // Enhanced edit mode handler
   const handleEditModeToggle = () => {
     setIsEditMode(true);
+  };
+
+  // Cancel Edit with modal confirmation
+  const handleCancelEditWithModal = () => {
+    if (localIsFormTouched) {
+      showModalPopup(
+        'warning',
+        'Discard Changes?',
+        'You have unsaved changes. Are you sure you want to cancel?',
+        () => {
+          handleCancelEdit();
+          hideModal();
+        }
+      );
+    } else {
+      handleCancelEdit();
+    }
+  };
+
+  // Cancel Edit implementation
+  const handleCancelEdit = () => {
+    // Parse fullName into firstName and lastName
+    const fullName = profile.fullName || "";
+    const nameParts = fullName.split(' ');
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(' ') || "";
+    
+    // Parse address into components
+    const address = profile.address || "";
+    const addressParts = address.split(',');
+    const streetAddress = addressParts[0] || "";
+    const apartment = addressParts.length > 1 ? addressParts[1].trim() : "";
+
+    setLocalProfile({
+      firstName,
+      lastName,
+      email: profile.email || "",
+      phone: profile.phone || "",
+      streetAddress,
+      apartment,
+      city: profile.city || "",
+      state: profile.state || "",
+      pincode: profile.pincode || "",
+      country: profile.country || "India",
+      dateOfBirth: profile.dateOfBirth || "",
+      age: profile.age || "",
+      gender: profile.gender || "",
+      profilePhoto: profile.profilePhoto || ""
+    });
+    
+    setLocalFormErrors({});
+    setLocalIsFormTouched(false);
+    setIsEditMode(false);
+    setSaveStatus('');
   };
 
   // Real-time form submission
@@ -641,7 +884,12 @@ const ProfileView = ({ setActiveView }) => {
     // Final validation check
     validateLocalForm();
     if (!localIsFormValid) {
-      setSaveStatus('❌ Please fix all validation errors before submitting.');
+      showModalPopup(
+        'error',
+        'Validation Error',
+        'Please fix all validation errors before submitting.',
+        () => hideModal()
+      );
       return;
     }
 
@@ -649,56 +897,57 @@ const ProfileView = ({ setActiveView }) => {
     setSaveStatus('🔄 Saving profile changes...');
 
     try {
+      // Combine name fields
+      const fullName = `${localProfile.firstName} ${localProfile.lastName}`.trim();
+      
+      // Combine address fields
+      const address = localProfile.apartment 
+        ? `${localProfile.streetAddress}, ${localProfile.apartment}`
+        : localProfile.streetAddress;
+
       const updatedProfile = {
         ...profile,
-        ...localProfile,
+        fullName,
+        email: localProfile.email,
+        phone: localProfile.phone,
+        address,
+        city: localProfile.city,
+        state: localProfile.state,
+        pincode: localProfile.pincode,
+        country: localProfile.country,
+        dateOfBirth: localProfile.dateOfBirth,
+        age: localProfile.age,
+        gender: localProfile.gender,
+        profilePhoto: localProfile.profilePhoto,
         lastUpdated: new Date().toISOString()
       };
 
       await updateProfile(updatedProfile);
       
-      // Show success message
-      setSaveStatus('success');
-      setLocalIsFormTouched(false);
-      setIsEditMode(false);
+      // Show success modal
+      showModalPopup(
+        'success',
+        'Profile Updated Successfully!',
+        'Your profile information has been saved successfully.',
+        () => {
+          setLocalIsFormTouched(false);
+          setIsEditMode(false);
+          hideModal();
+        }
+      );
       
-      // Auto-hide success message after 5 seconds
-      setTimeout(() => {
-        setSaveStatus('');
-      }, 5000);
     } catch (error) {
       console.error('Profile update error:', error);
-      setSaveStatus('❌ Error updating profile. Please try again.');
+      showModalPopup(
+        'error',
+        'Update Failed',
+        'Error updating profile. Please try again.',
+        () => hideModal()
+      );
     } finally {
       setIsSubmitting(false);
+      setSaveStatus('');
     }
-  };
-
-  const handleCancelEdit = () => {
-    if (localIsFormTouched) {
-      const confirmReset = window.confirm(
-        "You have unsaved changes. Are you sure you want to cancel?"
-      );
-      if (!confirmReset) return;
-    }
-
-    setLocalProfile({
-      fullName: profile.fullName || "",
-      email: profile.email || "",
-      phone: profile.phone || "",
-      address: profile.address || "",
-      city: profile.city || "",
-      pincode: profile.pincode || "",
-      dateOfBirth: profile.dateOfBirth || "",
-      age: profile.age || "",
-      gender: profile.gender || "",
-      profilePhoto: profile.profilePhoto || ""
-    });
-    
-    setLocalFormErrors({});
-    setLocalIsFormTouched(false);
-    setIsEditMode(false);
-    setSaveStatus('');
   };
 
   // Helper function to get input styles
@@ -717,7 +966,7 @@ const ProfileView = ({ setActiveView }) => {
 
   // Check if profile is complete
   const isProfileComplete = () => {
-    const requiredFields = ['fullName', 'email', 'phone', 'address', 'city', 'pincode', 'dateOfBirth', 'gender'];
+    const requiredFields = ['firstName', 'email', 'phone', 'streetAddress', 'city', 'state', 'pincode', 'dateOfBirth', 'gender'];
     return requiredFields.every(field => localProfile[field] && localProfile[field].trim());
   };
 
@@ -729,72 +978,60 @@ const ProfileView = ({ setActiveView }) => {
     return styles.saveStatus;
   };
 
-  return (
-    <div style={styles.profileContainer}>
-      {/* Success Message */}
-      {saveStatus === 'success' && (
-        <div style={styles.successMessage}>
-          <span style={styles.successIcon}>✅</span>
-          <span>Profile updated successfully!</span>
-        </div>
-      )}
+  // Modal Component
+  const Modal = () => {
+    if (!showModal) return null;
 
-      {/* Compact Header */}
-      <div style={styles.pageHeader}>
-        <button 
-          style={styles.backButton} 
-          onClick={handleBackToDashboard}
-          aria-label="Back to dashboard"
-          onMouseEnter={(e) => {
-            e.target.style.backgroundColor = '#7C2A62';
-            e.target.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.backgroundColor = 'transparent';
-            e.target.style.color = '#7C2A62';
-          }}
-        >
-          ← Back to Dashboard
-        </button>
-        <div style={styles.headerContent}>
-          <h2 style={styles.sectionTitle}>My Profile</h2>
-          {!isEditMode && (
-            <div style={styles.profileStatus}>
-              <span style={isProfileComplete() ? styles.statusComplete : styles.statusIncomplete}>
-                {isProfileComplete() ? '✅ Profile Complete' : '⚠ Profile Incomplete'}
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Profile Photo Section - Compact */}
-      <div style={styles.profilePhotoSection}>
-        <div style={styles.profilePhotoContainer}>
-          <div style={styles.profilePhotoPreview}>
-            {localProfile.profilePhoto ? (
-              <img
-                src={localProfile.profilePhoto}
-                alt="Profile"
-                style={styles.profilePhotoImage}
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  handleRemovePhoto();
-                }}
-              />
+    return (
+      <div style={modalStyles.overlay} onClick={hideModal}>
+        <div style={modalStyles.modal} onClick={(e) => e.stopPropagation()}>
+          <div style={modalStyles.modalIcon}>{getModalIcon()}</div>
+          <h3 style={modalStyles.modalTitle}>{modalTitle}</h3>
+          <p style={modalStyles.modalMessage}>{modalMessage}</p>
+          <div style={modalStyles.modalButtons}>
+            {modalType === 'warning' ? (
+              <>
+                <button
+                  style={getModalButtonStyle(true)}
+                  onClick={() => {
+                    if (modalAction) modalAction();
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#cc0000';
+                    e.target.style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = '#FF6B6B';
+                    e.target.style.transform = 'translateY(0)';
+                  }}
+                >
+                  Discard Changes
+                </button>
+                <button
+                  style={getModalButtonStyle(false)}
+                  onClick={hideModal}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#7C2A62';
+                    e.target.style.color = 'white';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = 'transparent';
+                    e.target.style.color = '#7C2A62';
+                  }}
+                >
+                  Continue Editing
+                </button>
+              </>
             ) : (
-              <div style={styles.profilePhotoPlaceholder}>
-                {localProfile.fullName?.charAt(0).toUpperCase() || "👤"}
-              </div>
-            )}
-          </div>
-
-          <div style={styles.profilePhotoActions}>
-            {!isEditMode ? (
               <button
-                style={styles.editProfileButton}
-                onClick={handleEditModeToggle}
-                type="button"
+                style={getModalButtonStyle(true)}
+                onClick={() => {
+                  if (modalAction) {
+                    modalAction();
+                  } else {
+                    hideModal();
+                  }
+                }}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = '#6a2460';
                   e.target.style.transform = 'translateY(-1px)';
@@ -804,276 +1041,418 @@ const ProfileView = ({ setActiveView }) => {
                   e.target.style.transform = 'translateY(0)';
                 }}
               >
-                ✏️ Edit Profile
+                {modalType === 'success' ? 'Continue' : 'OK'}
               </button>
-            ) : (
-              <>
-                <label style={styles.uploadPhotoButton}>
-                   Update Photo
-                  <input
-                    type="file"
-                    accept="image/*"
-                    hidden
-                    onChange={handlePhotoUpload}
-                  />
-                </label>
-
-                {localProfile.profilePhoto && (
-                  <button
-                    style={styles.removePhotoButton}
-                    type="button"
-                    onClick={handleRemovePhoto}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = '#cc0000';
-                      e.target.style.transform = 'translateY(-1px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = '#FF6B6B';
-                      e.target.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    Remove
-                  </button>
-                )}
-              </>
             )}
           </div>
         </div>
       </div>
+    );
+  };
 
-      {/* Save Status Display */}
-      {saveStatus && saveStatus !== 'success' && (
-        <div style={getSaveStatusStyle()}>
-          {saveStatus}
+  return (
+    <>
+      <Modal />
+      
+      <div style={styles.profileContainer}>
+        {/* Compact Header */}
+        <div style={styles.pageHeader}>
+          <button 
+            style={styles.backButton} 
+            onClick={handleBackToDashboard}
+            aria-label="Back to dashboard"
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = '#7C2A62';
+              e.target.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = 'transparent';
+              e.target.style.color = '#7C2A62';
+            }}
+          >
+            ← Back to Dashboard
+          </button>
+          <div style={styles.headerContent}>
+            <h2 style={styles.sectionTitle}>My Profile</h2>
+            {!isEditMode && (
+              <div style={styles.profileStatus}>
+                <span style={isProfileComplete() ? styles.statusComplete : styles.statusIncomplete}>
+                  {isProfileComplete() ? '✅ Profile Complete' : '⚠ Profile Incomplete'}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
-      )}
 
-      {/* Profile Form - Compact */}
-      <form onSubmit={handleLocalProfileUpdate} style={styles.profileForm}>
-        <div style={styles.formGrid}>
-          {/* Editable Name Field */}
-          <div style={styles.formGroup}>
-            <label style={styles.formLabel}>Full Name *</label>
-            <input
-              type="text"
-              name="fullName"
-              value={localProfile.fullName}
-              onChange={handleLocalProfileChange}
-              onBlur={handleLocalProfileBlur}
-              placeholder="Enter your full name"
-              style={getInputStyle("fullName")}
-              disabled={!isEditMode}
-              onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
-            />
-            {localIsFormTouched && localFormErrors.fullName && (
-              <span style={styles.formError}>{localFormErrors.fullName}</span>
-            )}
+        {/* Profile Photo Section - Compact */}
+        <div style={styles.profilePhotoSection}>
+          <div style={styles.profilePhotoContainer}>
+            <div style={styles.profilePhotoPreview}>
+              {localProfile.profilePhoto ? (
+                <img
+                  src={localProfile.profilePhoto}
+                  alt="Profile"
+                  style={styles.profilePhotoImage}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    handleRemovePhoto();
+                  }}
+                />
+              ) : (
+                <div style={styles.profilePhotoPlaceholder}>
+                  {localProfile.firstName?.charAt(0).toUpperCase() || "👤"}
+                </div>
+              )}
+            </div>
+
+            <div style={styles.profilePhotoActions}>
+              {!isEditMode ? (
+                <button
+                  style={styles.editProfileButton}
+                  onClick={handleEditModeToggle}
+                  type="button"
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#6a2460';
+                    e.target.style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = '#7C2A62';
+                    e.target.style.transform = 'translateY(0)';
+                  }}
+                >
+                  ✏️ Edit Profile
+                </button>
+              ) : (
+                <>
+                  <label style={styles.uploadPhotoButton}>
+                     Update Photo
+                    <input
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={handlePhotoUpload}
+                    />
+                  </label>
+
+                  {localProfile.profilePhoto && (
+                    <button
+                      style={styles.removePhotoButton}
+                      type="button"
+                      onClick={handleRemovePhoto}
+                      onMouseEnter={(e) => {
+                        e.target.style.backgroundColor = '#cc0000';
+                        e.target.style.transform = 'translateY(-1px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.backgroundColor = '#FF6B6B';
+                        e.target.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
           </div>
+        </div>
 
-          {/* Editable Email Field */}
-          <div style={styles.formGroup}>
-            <label style={styles.formLabel}>Email *</label>
-            <input
-              type="email"
-              name="email"
-              value={localProfile.email}
-              onChange={handleLocalProfileChange}
-              onBlur={handleLocalProfileBlur}
-              placeholder="Enter your email address"
-              style={getInputStyle("email")}
-              disabled={!isEditMode}
-              onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
-            />
-            {localIsFormTouched && localFormErrors.email && (
-              <span style={styles.formError}>{localFormErrors.email}</span>
-            )}
+        {/* Save Status Display */}
+        {saveStatus && (
+          <div style={getSaveStatusStyle()}>
+            {saveStatus}
           </div>
+        )}
 
-          {/* Editable Phone Field - Extended container */}
-          <div style={styles.formGroup}>
-            <label style={styles.formLabel}>Phone *</label>
-            <div style={styles.phoneInputContainer}>
-              <div style={styles.phonePrefix}>🇮🇳 +91</div>
+        {/* Profile Form - Compact */}
+        <form onSubmit={handleLocalProfileUpdate} style={styles.profileForm}>
+          <div style={styles.formGrid}>
+            {/* Name Section */}
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>First Name *</label>
               <input
-                type="tel"
-                name="phone"
-                value={localProfile.phone}
+                type="text"
+                name="firstName"
+                value={localProfile.firstName}
                 onChange={handleLocalProfileChange}
                 onBlur={handleLocalProfileBlur}
-                style={{
-                  ...styles.formInput,
-                  ...(localIsFormTouched && localFormErrors.phone && styles.formInputError),
-                  ...(!isEditMode && styles.nonEditableField),
-                  flex: '1', // Take remaining space
-                }}
-                placeholder="10-digit mobile number"
-                maxLength="10"
+                placeholder="Enter your first name"
+                style={getInputStyle("firstName")}
+                disabled={!isEditMode}
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              />
+              {localIsFormTouched && localFormErrors.firstName && (
+                <span style={styles.formError}>{localFormErrors.firstName}</span>
+              )}
+            </div>
+
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={localProfile.lastName}
+                onChange={handleLocalProfileChange}
+                onBlur={handleLocalProfileBlur}
+                placeholder="Enter your last name"
+                style={getInputStyle("lastName")}
+                disabled={!isEditMode}
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              />
+              {localIsFormTouched && localFormErrors.lastName && (
+                <span style={styles.formError}>{localFormErrors.lastName}</span>
+              )}
+            </div>
+
+            {/* Contact Information */}
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Email *</label>
+              <input
+                type="email"
+                name="email"
+                value={localProfile.email}
+                onChange={handleLocalProfileChange}
+                onBlur={handleLocalProfileBlur}
+                placeholder="Enter your email address"
+                style={getInputStyle("email")}
+                disabled={!isEditMode}
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              />
+              {localIsFormTouched && localFormErrors.email && (
+                <span style={styles.formError}>{localFormErrors.email}</span>
+              )}
+            </div>
+
+            {/* Phone Field - Extended container */}
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Phone *</label>
+              <div style={styles.phoneInputContainer}>
+                <div style={styles.phonePrefix}>🇮🇳 +91</div>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={localProfile.phone}
+                  onChange={handleLocalProfileChange}
+                  onBlur={handleLocalProfileBlur}
+                  style={{
+                    ...styles.formInput,
+                    ...(localIsFormTouched && localFormErrors.phone && styles.formInputError),
+                    ...(!isEditMode && styles.nonEditableField),
+                    flex: '1',
+                  }}
+                  placeholder="10-digit mobile number"
+                  maxLength="10"
+                  disabled={!isEditMode}
+                  onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+                />
+              </div>
+              {localIsFormTouched && localFormErrors.phone && (
+                <span style={styles.formError}>{localFormErrors.phone}</span>
+              )}
+            </div>
+
+            {/* Personal Information */}
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Date of Birth *</label>
+              <input
+                type="date"
+                name="dateOfBirth"
+                value={localProfile.dateOfBirth}
+                onChange={handleLocalProfileChange}
+                style={getInputStyle("dateOfBirth")}
+                disabled={!isEditMode}
+                max={new Date().toISOString().split('T')[0]}
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              />
+              {localIsFormTouched && localFormErrors.dateOfBirth && (
+                <span style={styles.formError}>{localFormErrors.dateOfBirth}</span>
+              )}
+            </div>
+
+            {/* Age Field (Read-only) */}
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Age *</label>
+              <input
+                type="text"
+                name="age"
+                value={localProfile.age ? `${localProfile.age} years` : ""}
+                readOnly
+                style={getInputStyle("age")}
+              />
+              <p style={styles.fieldNote}>Automatically calculated from date of birth</p>
+            </div>
+
+            {/* Gender Field */}
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Gender *</label>
+              <select
+                name="gender"
+                value={localProfile.gender}
+                onChange={handleLocalProfileChange}
+                style={getInputStyle("gender")}
+                disabled={!isEditMode}
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+                <option value="prefer-not-to-say">Prefer not to say</option>
+              </select>
+              {localIsFormTouched && localFormErrors.gender && (
+                <span style={styles.formError}>{localFormErrors.gender}</span>
+              )}
+            </div>
+
+            {/* Address Section */}
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Street Address *</label>
+              <textarea
+                name="streetAddress"
+                rows="2"
+                value={localProfile.streetAddress}
+                onChange={handleLocalProfileChange}
+                onBlur={handleLocalProfileBlur}
+                style={getInputStyle("streetAddress")}
+                disabled={!isEditMode}
+                placeholder="House number, street name"
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              />
+              {localIsFormTouched && localFormErrors.streetAddress && (
+                <span style={styles.formError}>{localFormErrors.streetAddress}</span>
+              )}
+            </div>
+
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Apartment/Building (Optional)</label>
+              <input
+                type="text"
+                name="apartment"
+                value={localProfile.apartment}
+                onChange={handleLocalProfileChange}
+                onBlur={handleLocalProfileBlur}
+                placeholder="Apartment, suite, building"
+                style={getInputStyle("apartment")}
                 disabled={!isEditMode}
                 onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
               />
             </div>
-            {localIsFormTouched && localFormErrors.phone && (
-              <span style={styles.formError}>{localFormErrors.phone}</span>
-            )}
+
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>City *</label>
+              <input
+                type="text"
+                name="city"
+                value={localProfile.city}
+                onChange={handleLocalProfileChange}
+                onBlur={handleLocalProfileBlur}
+                placeholder="Enter your city"
+                style={getInputStyle("city")}
+                disabled={!isEditMode}
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              />
+              {localIsFormTouched && localFormErrors.city && (
+                <span style={styles.formError}>{localFormErrors.city}</span>
+              )}
+            </div>
+
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>State *</label>
+              <input
+                type="text"
+                name="state"
+                value={localProfile.state}
+                onChange={handleLocalProfileChange}
+                onBlur={handleLocalProfileBlur}
+                placeholder="Enter your state"
+                style={getInputStyle("state")}
+                disabled={!isEditMode}
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              />
+              {localIsFormTouched && localFormErrors.state && (
+                <span style={styles.formError}>{localFormErrors.state}</span>
+              )}
+            </div>
+
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Pincode *</label>
+              <input
+                type="text"
+                name="pincode"
+                value={localProfile.pincode}
+                onChange={handleLocalProfileChange}
+                placeholder="6-digit pincode"
+                maxLength="6"
+                style={getInputStyle("pincode")}
+                disabled={!isEditMode}
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              />
+              {localIsFormTouched && localFormErrors.pincode && (
+                <span style={styles.formError}>{localFormErrors.pincode}</span>
+              )}
+            </div>
+
+            <div style={styles.formGroup}>
+              <label style={styles.formLabel}>Country</label>
+              <input
+                type="text"
+                name="country"
+                value={localProfile.country}
+                onChange={handleLocalProfileChange}
+                style={getInputStyle("country")}
+                disabled={!isEditMode}
+                onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
+              />
+            </div>
           </div>
 
-          {/* Date of Birth Field */}
-          <div style={styles.formGroup}>
-            <label style={styles.formLabel}>Date of Birth *</label>
-            <input
-              type="date"
-              name="dateOfBirth"
-              value={localProfile.dateOfBirth}
-              onChange={handleLocalProfileChange}
-              style={getInputStyle("dateOfBirth")}
-              disabled={!isEditMode}
-              max={new Date().toISOString().split('T')[0]}
-              onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
-            />
-            {localIsFormTouched && localFormErrors.dateOfBirth && (
-              <span style={styles.formError}>{localFormErrors.dateOfBirth}</span>
-            )}
-          </div>
-
-          {/* Age Field (Read-only) */}
-          <div style={styles.formGroup}>
-            <label style={styles.formLabel}>Age *</label>
-            <input
-              type="text"
-              name="age"
-              value={localProfile.age ? `${localProfile.age} years` : ""}
-              readOnly
-              style={getInputStyle("age")}
-            />
-            <p style={styles.fieldNote}>Automatically calculated from date of birth</p>
-          </div>
-
-          {/* Gender Field */}
-          <div style={styles.formGroup}>
-            <label style={styles.formLabel}>Gender *</label>
-            <select
-              name="gender"
-              value={localProfile.gender}
-              onChange={handleLocalProfileChange}
-              style={getInputStyle("gender")}
-              disabled={!isEditMode}
-              onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-              <option value="prefer-not-to-say">Prefer not to say</option>
-            </select>
-            {localIsFormTouched && localFormErrors.gender && (
-              <span style={styles.formError}>{localFormErrors.gender}</span>
-            )}
-          </div>
-
-          {/* Address Field */}
-          <div style={styles.formGroup}>
-            <label style={styles.formLabel}>Address *</label>
-            <textarea
-              name="address"
-              rows="3"
-              value={localProfile.address}
-              onChange={handleLocalProfileChange}
-              onBlur={handleLocalProfileBlur}
-              style={getInputStyle("address")}
-              disabled={!isEditMode}
-              placeholder="Enter your complete address"
-              onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
-            />
-            {localIsFormTouched && localFormErrors.address && (
-              <span style={styles.formError}>{localFormErrors.address}</span>
-            )}
-          </div>
-
-          {/* City Field */}
-          <div style={styles.formGroup}>
-            <label style={styles.formLabel}>City *</label>
-            <input
-              type="text"
-              name="city"
-              value={localProfile.city}
-              onChange={handleLocalProfileChange}
-              onBlur={handleLocalProfileBlur}
-              placeholder="Enter your city"
-              style={getInputStyle("city")}
-              disabled={!isEditMode}
-              onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
-            />
-            {localIsFormTouched && localFormErrors.city && (
-              <span style={styles.formError}>{localFormErrors.city}</span>
-            )}
-          </div>
-
-          {/* Pincode Field */}
-          <div style={styles.formGroup}>
-            <label style={styles.formLabel}>Pincode *</label>
-            <input
-              type="text"
-              name="pincode"
-              value={localProfile.pincode}
-              onChange={handleLocalProfileChange}
-              placeholder="6-digit pincode"
-              maxLength="6"
-              style={getInputStyle("pincode")}
-              disabled={!isEditMode}
-              onFocus={(e) => e.target.style.borderColor = '#7C2A62'}
-            />
-            {localIsFormTouched && localFormErrors.pincode && (
-              <span style={styles.formError}>{localFormErrors.pincode}</span>
-            )}
-          </div>
-        </div>
-
-        {/* Action Buttons - Compact */}
-        {isEditMode && (
-          <div style={styles.actionButtons}>
-            <button
-              type="submit"
-              style={{
-                ...styles.updateButton,
-                ...(!localIsFormValid && styles.updateButtonDisabled),
-                ...(isSubmitting && styles.updateButtonDisabled)
-              }}
-              disabled={!localIsFormValid || isSubmitting}
-              onMouseEnter={(e) => {
-                if (!isSubmitting && localIsFormValid) {
-                  e.target.style.backgroundColor = '#6a2460';
-                  e.target.style.transform = 'translateY(-1px)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isSubmitting && localIsFormValid) {
+          {/* Action Buttons - Compact */}
+          {isEditMode && (
+            <div style={styles.actionButtons}>
+              <button
+                type="submit"
+                style={{
+                  ...styles.updateButton,
+                  ...(!localIsFormValid && styles.updateButtonDisabled),
+                  ...(isSubmitting && styles.updateButtonDisabled)
+                }}
+                disabled={!localIsFormValid || isSubmitting}
+                onMouseEnter={(e) => {
+                  if (!isSubmitting && localIsFormValid) {
+                    e.target.style.backgroundColor = '#6a2460';
+                    e.target.style.transform = 'translateY(-1px)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSubmitting && localIsFormValid) {
+                    e.target.style.backgroundColor = '#7C2A62';
+                    e.target.style.transform = 'translateY(0)';
+                  }
+                }}
+              >
+                {isSubmitting ? "🔄 Saving..." : "Save Changes"}
+              </button>
+              <button
+                type="button"
+                style={styles.cancelButton}
+                onClick={handleCancelEditWithModal}
+                disabled={isSubmitting}
+                onMouseEnter={(e) => {
                   e.target.style.backgroundColor = '#7C2A62';
-                  e.target.style.transform = 'translateY(0)';
-                }
-              }}
-            >
-              {isSubmitting ? "🔄 Saving..." : "Save Changes"}
-            </button>
-            <button
-              type="button"
-              style={styles.cancelButton}
-              onClick={handleCancelEdit}
-              disabled={isSubmitting}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#7C2A62';
-                e.target.style.color = 'white';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = 'transparent';
-                e.target.style.color = '#7C2A62';
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        )}
-      </form>
-    </div>
+                  e.target.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'transparent';
+                  e.target.style.color = '#7C2A62';
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          )}
+        </form>
+      </div>
+    </>
   );
 };
 

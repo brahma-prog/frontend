@@ -30,7 +30,7 @@ const DoctorHeader = ({
 
   const getPageSubtitle = () => {
     const subtitles = {
-      dashboard: 'Overview of your practice',
+      dashboard: ' Clinical Dashboard',
       appointments: '', // Removed subtitle
       patients: '', // Removed subtitle
       earnings: '', // Removed subtitle

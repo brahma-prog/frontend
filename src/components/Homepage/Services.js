@@ -381,12 +381,12 @@ const Services = ({ onNavigateToLogin }) => {
   const services = [
     {
       title: 'Medicine Delivery',
-      description: 'Get prescribed medicines delivered to your home within 2 hours',
+      description: 'Get prescribed medicines delivered to your home within 30-40 mins',
       features: ['24/7 Delivery', 'Prescription Upload', 'Generic Alternatives', 'Real-time Tracking'],
       details: {
         overview: "Our fast and reliable medicine delivery service ensures you get your prescribed medications without leaving your home. We partner with licensed pharmacies to provide authentic medicines with proper storage and handling.",
         benefits: [
-          "Free delivery on orders above $25",
+          "Free delivery on orders above 200",
           "Real-time order tracking",
           "Temperature-sensitive packaging",
           "Prescription verification",
@@ -399,7 +399,7 @@ const Services = ({ onNavigateToLogin }) => {
           "Track your order in real-time",
           "Safe and contactless delivery"
         ],
-        pricing: "Starting from $2.99 delivery fee. Free for emergency medications.",
+        pricing: "Starting from 2.99 delivery fee. Free for emergency medications.",
         duration: "2-4 hours standard delivery"
       }
     },
@@ -423,7 +423,7 @@ const Services = ({ onNavigateToLogin }) => {
           "Receive diagnosis and e-prescription",
           "Get specialist referrals if needed"
         ],
-        pricing: "Starting from $25 per consultation. Insurance accepted.",
+        pricing: "Starting from 25 rupee per consultation. Insurance accepted.",
         duration: "15-30 minutes per session"
       }
     },
@@ -447,7 +447,7 @@ const Services = ({ onNavigateToLogin }) => {
           "Ambulance dispatched if needed",
           "Hospital admission coordination"
         ],
-        pricing: "Emergency consultation: Free. Ambulance: $50-$150 based on distance.",
+        pricing: "Emergency consultation: Free. Ambulance: 50-150 rupee based on distance.",
         duration: "Immediate response, 15-minute ambulance ETA"
       }
     },
@@ -471,7 +471,7 @@ const Services = ({ onNavigateToLogin }) => {
           "Get expert recommendations",
           "Regular subscription options"
         ],
-        pricing: "Products starting from $5. Subscription boxes from $35/month.",
+        pricing: "Products starting from 5 rupee. Subscription boxes from 35 rupee /month.",
         duration: "Same-day delivery available"
       }
     },
@@ -495,7 +495,7 @@ const Services = ({ onNavigateToLogin }) => {
           "Delivery preparation and support",
           "Postnatal recovery program"
         ],
-        pricing: "Packages starting from $99/month. Insurance coverage available.",
+        pricing: "Packages starting from 99 rupee/month. Insurance coverage available.",
         duration: "Complete program: 9 months + 3 months postnatal"
       }
     },
@@ -519,7 +519,7 @@ const Services = ({ onNavigateToLogin }) => {
           "Specialist doctor consultation",
           "Receive personalized health plan"
         ],
-        pricing: "Packages starting from $99. Family and corporate discounts available.",
+        pricing: "Packages starting from 99 rupee. Family and corporate discounts available.",
         duration: "2-4 hours for complete checkup"
       }
     }
